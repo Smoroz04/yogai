@@ -1,8 +1,11 @@
 from flask import Flask, Response
 import cv2
+import mediapipe as mp
+import poseModule 
 
 app = Flask(__name__)
 camera = cv2.VideoCapture(0)
+detector = poseModule.poseDetector()
 
 def generate_frames():
     while True:
@@ -10,6 +13,9 @@ def generate_frames():
         if not success:
             break
         else:
+            frame = detector.findPose(frame)
+            lmlist = detector.findPosition(frame, draw=False)
+            print(lmlist)
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
