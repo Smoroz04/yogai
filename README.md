@@ -1,2 +1,2 @@
 # yogai
-Yoga wellness app leveraging LLM to track all poses. 
+Yogai wellness app leveraging computer vision  
