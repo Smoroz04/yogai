@@ -1,2 +1,2 @@
 # yogai
-Yogai wellness app leveraging computer vision  
+Yogai! wellness app leveraging computer vision  
