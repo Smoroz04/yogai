@@ -1,0 +1,39 @@
+These are the landmarks for the body using MediaPipe. 
+if the person is facing you like this (Enjoy my fuckass drawing)
+left    right
+    _0_
+     |
+     /\
+0: Nose point
+1: right eye inner
+2: right eye
+3: right eye outer
+4: left eye inner
+5: left eye
+6: left eye outer
+7: right ear
+8: left ear
+9: mouth right
+10: mouth left
+11: right shoulder
+12: left shoulder
+13: right elbow
+14: left elbow
+15: right wrist
+16: left write
+17: right pinky
+18: left pinky
+19: Right index
+20: Left index
+21: Right thumb
+22: Left thumb
+23: Right hip
+24: Left hip
+25: Right knee
+26: Left knee
+27: Right ankle
+28: Left ankle
+29: Right heel
+30: Left heel
+31: Right foot index
+32: Left foot index
