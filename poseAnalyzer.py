@@ -72,7 +72,6 @@ class poseAnalyzer():
             )
         except KeyError:
             print("error, this shit dont work")
-
         return angles
 
 pose_analyzer = poseAnalyzer()
