@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import csv
+import time
 
 class poseAnalyzer():
     def __init__(self):
@@ -95,3 +96,5 @@ angles = pose_analyzer.analyzePose(image_path)
 if angles:
     pushToCSV(image_path[13:], angles)
     print("Angles:", angles)
+
+
