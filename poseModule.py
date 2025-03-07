@@ -73,21 +73,47 @@ class poseManager():
 
 
     def checkPose(self, quickTimer, currAngles, wantedPose, frameCounter):
-        THRESHOLD = 10  # Define a threshold for pose correctness
+        THRESHOLD = 10
 
         if frameCounter % 5 == 0:
-            for i in range(len(wantedPose)):
-                if time.time() - quickTimer > 5:
-                    if abs(currAngles[i] - float(wantedPose[i])) > THRESHOLD:  # Convert to float
-                        print("You are not in the right pose")
-                        return quickTimer
-                    else:
-                        quickTimer = time.time()
-                        return quickTimer
-                else:
-                    if (abs(currAngles[i] - float(wantedPose[i])) > THRESHOLD):  # Convert to float
-                        quickTimer = time.time()
-                        print('YOu are in the correct pose')
-                        return quickTimer
+            incorrect_pose = False
 
-        return quickTimer
+            for i in range(len(currAngles)):
+                print(time.time() - quickTimer)
+
+                if(i < len(currAngles) and i < len(wantedPose)):
+                    if abs(currAngles[i] - float(wantedPose[i])) > THRESHOLD:
+                        incorrect_pose = True
+                        break
+            
+            if incorrect_pose:
+                if time.time() - quickTimer > 5:
+                    print("Timed out attempt, sorry")
+                    return time.time(), True, True
+                else:
+                    return quickTimer, False, False
+            else:
+                return time.time(), False, True
+        return quickTimer, False, False
+
+    
+    # def checkPose(self, quickTimer, currAngles, wantedPose, frameCounter):
+    #     THRESHOLD = 10  # Define a threshold for pose correctness
+
+    #     if frameCounter % 5 == 0:
+    #         for i in range(len(wantedPose)):
+    #             print(time.time() - quickTimer)
+    #             if time.time() - quickTimer > 5:
+    #                 if abs(currAngles[i] - float(wantedPose[i])) > THRESHOLD:  # Convert to float
+    #                     print("You are not in the right pose")
+    #                     return quickTimer
+    #                 else:
+    #                     quickTimer = time.time()
+    #                     return quickTimer
+    #             else:
+    #                 if (abs(currAngles[i] - float(wantedPose[i])) > THRESHOLD):  # Convert to float
+    #                     quickTimer = time.time()
+    #                     #print('YOu are in the correct pose')
+    #                     return quickTimer
+
+    #     return quickTimer

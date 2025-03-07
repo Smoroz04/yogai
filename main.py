@@ -4,7 +4,7 @@ import time
 import poseModule  # Import the external pose module
 
 app = Flask(__name__)
-camera = cv2.VideoCapture(0)
+camera = cv2.VideoCapture(2)
 detector = poseModule.poseManager()  # Use poseManager from poseModule
 
 def generate_frames():
@@ -12,6 +12,9 @@ def generate_frames():
     frameCounter = 0
     quickTimer = time.time()
     mainTimer = time.time()
+    resetMainTimer = False
+    activeAttempt = True
+    border_colour = (0, 0, 255)
 
     while True:
         success, frame = camera.read()
@@ -22,16 +25,40 @@ def generate_frames():
             frame = detector.findPose(frame)
             lmlist = detector.findPosition(frame, draw=False)
             
+            elapsed_time = time.time() - mainTimer
+            elapsed_time_text = f"Time: {elapsed_time:.0f}s"  
+
+            height, width, _ = frame.shape
+            thickness = 10
+            cv2.rectangle(frame, (0,0), (width, height), border_colour, thickness)
+
+            cv2.putText(frame, elapsed_time_text, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 
+                        1, (0, 255, 0), 2, cv2.LINE_AA)
+
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-            currAngles = detector.get_joint_angles(lmlist)
+            if(activeAttempt):
+                currAngles = detector.get_joint_angles(lmlist)
+                if elapsed_time < 10:
+                    frameCounter += 1
+                    quickTimer, resetMainTimer, changeBorder = detector.checkPose(quickTimer, currAngles, wantedPose, frameCounter)
 
-            if time.time() - mainTimer < 30:
-                frameCounter += 1
-                quickTimer = detector.checkPose(quickTimer, currAngles, wantedPose, frameCounter)
+                    if(changeBorder):
+                        if(border_colour==(0,0,255)):
+                            border_colour = (0,255,0)
+                        else:
+                            border_colour = (0, 0, 255)
+
+                    if resetMainTimer:
+                        mainTimer = time.time()
+                elif elapsed_time >= 10:
+                    print("CONGRATULATIONS")
+                    activeAttempt = False
+
+
 
 @app.route('/video')
 def video_feed():
