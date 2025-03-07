@@ -10,19 +10,29 @@ detector = poseModule.poseDetector()
 
 
 def generate_frames():
+   wantedPose = get_first_line_as_array
+   mainTimer = time.time()
    while True:
-       success, frame = camera.read()
-       if not success:
-           break
-       else:
-            frame = cv2.flip(frame, 1)  # Flip the frame horizontally
-            frame = detector.findPose(frame)
-            lmlist = detector.findPosition(frame, draw=False) 
-            print(lmlist)   
-            ret, buffer = cv2.imencode('.jpg', frame)   
-            frame = buffer.tobytes()  
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  
+      success, frame = camera.read()
+      if not success:
+         break
+      else:
+         frame = cv2.flip(frame, 1)  # Flip the frame horizontally
+         frame = detector.findPose(frame)
+         lmlist = detector.findPosition(frame, draw=False) 
+         print(lmlist)   
+         ret, buffer = cv2.imencode('.jpg', frame)   
+         frame = buffer.tobytes()  
+         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+         currAngles = get_joint_angles(lmlist)
+
+         if (mainTimer < 30):
+            quickTimer = time.time()
+            frameCounter += 1
+            quickTimer = checkPose(quickTimer, currAngles, wantedPose, frameCounter)
+
+
+      
 
 
 @app.route('/video')   

@@ -43,11 +43,12 @@ class poseManager():
                     cv2.circle(frame, (cx, cy), 5, (255, 0, 0), cv2.FILLED)
         return lmList
     
-    def calculateAngle(self, a, b, c):
+    import numpy as np
+
+    def calculateAngle(a, b, c):
         a = np.array(a)
         b = np.array(b)
         c = np.array(c) 
-
 
         ab = a - b 
         cb = c - b  
@@ -56,7 +57,33 @@ class poseManager():
         angle = np.arccos(np.clip(cosine_angle, -1.0, 1.0)) 
         return np.floor(np.degrees(angle)) 
 
-        
+    def get_joint_angles(lmlist):
+        if not lmlist:
+            return []
+
+    def get_point(idx):
+        return (lmlist[idx][1], lmlist[idx][2]) if idx in range(len(lmlist)) else (0, 0)
+
+    return [
+        calculateAngle(get_point(11), get_point(13), get_point(15)),  # leftElbowAngle
+        calculateAngle(get_point(12), get_point(14), get_point(16)),  # rightElbowAngle
+        calculateAngle(get_point(23), get_point(25), get_point(27)),  # leftKneeAngle
+        calculateAngle(get_point(24), get_point(26), get_point(28)),  # rightKneeAngle
+        calculateAngle(get_point(13), get_point(11), get_point(23)),  # leftShoulderAngle
+        calculateAngle(get_point(14), get_point(12), get_point(24)),  # rightShoulderAngle
+        calculateAngle(get_point(11), get_point(23), get_point(25)),  # leftHipAngle
+        calculateAngle(get_point(12), get_point(24), get_point(26)),  # rightHipAngle
+    ]
+
+    def get_first_line_as_array(csv_filename):
+        with open(csv_filename, 'r') as file:
+            first_line = file.readline().strip()  # Read the first line and remove newline characters
+            return first_line.split(',')  # Split by commas
+
+        csv_array = get_first_line_as_array("your_file.csv")
+        return csv_array
+    
+    
     def checkPose(self, Quickertimer, currAngles, wantedPose, frameCounter ): 
         if frameCounter % 5 ==  0: 
             for i in currAngles.length(): 
