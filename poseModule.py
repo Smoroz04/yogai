@@ -1,10 +1,7 @@
 import cv2
 import mediapipe as mp
-import time
 import numpy as np
-import csv
-
-
+import time
 
 class poseManager():
     def __init__(self, mode=False, upBody=False, smooth=True, detectionCon=0.5, trackCon=0.5):
@@ -43,9 +40,7 @@ class poseManager():
                     cv2.circle(frame, (cx, cy), 5, (255, 0, 0), cv2.FILLED)
         return lmList
     
-    import numpy as np
-
-    def calculateAngle(a, b, c):
+    def calculateAngle(self, a, b, c):
         a = np.array(a)
         b = np.array(b)
         c = np.array(c) 
@@ -57,45 +52,42 @@ class poseManager():
         angle = np.arccos(np.clip(cosine_angle, -1.0, 1.0)) 
         return np.floor(np.degrees(angle)) 
 
-    def get_joint_angles(lmlist):
+    def get_joint_angles(self, lmlist):
         if not lmlist:
             return []
 
-    def get_point(idx):
+        return [
+            self.calculateAngle(self.get_point(11, lmlist), self.get_point(13, lmlist), self.get_point(15, lmlist)),  # leftElbowAngle
+            self.calculateAngle(self.get_point(12, lmlist), self.get_point(14, lmlist), self.get_point(16, lmlist)),  # rightElbowAngle
+            self.calculateAngle(self.get_point(23, lmlist), self.get_point(25, lmlist), self.get_point(27, lmlist)),  # leftKneeAngle
+            self.calculateAngle(self.get_point(24, lmlist), self.get_point(26, lmlist), self.get_point(28, lmlist)),  # rightKneeAngle
+            self.calculateAngle(self.get_point(13, lmlist), self.get_point(11, lmlist), self.get_point(23, lmlist)),  # leftShoulderAngle
+            self.calculateAngle(self.get_point(14, lmlist), self.get_point(12, lmlist), self.get_point(24, lmlist)),  # rightShoulderAngle
+            self.calculateAngle(self.get_point(11, lmlist), self.get_point(23, lmlist), self.get_point(25, lmlist)),  # leftHipAngle
+            self.calculateAngle(self.get_point(12, lmlist), self.get_point(24, lmlist), self.get_point(26, lmlist)),  # rightHipAngle
+        ]
+
+    def get_point(self, idx, lmlist):
         return (lmlist[idx][1], lmlist[idx][2]) if idx in range(len(lmlist)) else (0, 0)
 
-    return [
-        calculateAngle(get_point(11), get_point(13), get_point(15)),  # leftElbowAngle
-        calculateAngle(get_point(12), get_point(14), get_point(16)),  # rightElbowAngle
-        calculateAngle(get_point(23), get_point(25), get_point(27)),  # leftKneeAngle
-        calculateAngle(get_point(24), get_point(26), get_point(28)),  # rightKneeAngle
-        calculateAngle(get_point(13), get_point(11), get_point(23)),  # leftShoulderAngle
-        calculateAngle(get_point(14), get_point(12), get_point(24)),  # rightShoulderAngle
-        calculateAngle(get_point(11), get_point(23), get_point(25)),  # leftHipAngle
-        calculateAngle(get_point(12), get_point(24), get_point(26)),  # rightHipAngle
-    ]
 
-    def get_first_line_as_array(csv_filename):
-        with open(csv_filename, 'r') as file:
-            first_line = file.readline().strip()  # Read the first line and remove newline characters
-            return first_line.split(',')  # Split by commas
 
-        csv_array = get_first_line_as_array("your_file.csv")
-        return csv_array
-    
-    
-    def checkPose(self, Quickertimer, currAngles, wantedPose, frameCounter ): 
-        if frameCounter % 5 ==  0: 
-            for i in currAngles.length(): 
-                if quickTimer > 5:
-                    if (abs(currAngles[i] - wantedPose[i]) > THRESHOLD):
+    def checkPose(self, quickTimer, currAngles, wantedPose, frameCounter):
+        THRESHOLD = 10  # Define a threshold for pose correctness
+
+        if frameCounter % 5 == 0:
+            for i in range(len(wantedPose)):
+                if time.time() - quickTimer > 5:
+                    if abs(currAngles[i] - float(wantedPose[i])) > THRESHOLD:  # Convert to float
                         print("You are not in the right pose")
-                        return quickTimer 
+                        return quickTimer
                     else:
-                        quickTimer = timer.time()
+                        quickTimer = time.time()
                         return quickTimer
                 else:
-                    if not(abs(currAngles[i] - wantedPose[i]) > THRESHOLD):
-                        quickTimer = timer.time()
+                    if (abs(currAngles[i] - float(wantedPose[i])) > THRESHOLD):  # Convert to float
+                        quickTimer = time.time()
+                        print('YOu are in the correct pose')
                         return quickTimer
-                return quickTimer
+
+        return quickTimer
