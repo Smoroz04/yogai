@@ -1,10 +1,7 @@
 import cv2
 import mediapipe as mp
-import time
 import numpy as np
-import csv
-
-
+import time
 
 class poseManager():
     def __init__(self, mode=False, upBody=False, smooth=True, detectionCon=0.5, trackCon=0.5):
@@ -42,31 +39,11 @@ class poseManager():
                 if draw:
                     cv2.circle(frame, (cx, cy), 5, (255, 0, 0), cv2.FILLED)
         return lmList
-
-class Joint:
-    def __init__(self, name, pointA, pointB, pointC):
-        self.name = name
-        self.pointA = pointA
-        self.pointB = pointB
-        self.pointC = pointC
-
-        self.angle = self.calculateAngle(pointA, pointB, pointC)  # Fixed call
-        self.faultTime = 0
     
-    def __init__(self, name, pointA, pointB, pointC, time):
-        self.name = name
-        self.pointA = pointA
-        self.pointB = pointB
-        self.pointC = pointC
-
-        self.angle = self.calculateAngle(pointA, pointB, pointC)  # Fixed call
-        self.faultTime = time
-
     def calculateAngle(self, a, b, c):
         a = np.array(a)
         b = np.array(b)
         c = np.array(c) 
-
 
         ab = a - b 
         cb = c - b  
@@ -75,33 +52,42 @@ class Joint:
         angle = np.arccos(np.clip(cosine_angle, -1.0, 1.0)) 
         return np.floor(np.degrees(angle)) 
 
+    def get_joint_angles(self, lmlist):
+        if not lmlist:
+            return []
 
-class PoseChecker:
-    def __init__(self, landmarkList, targetAngleList):
-        self.landmarks = {i: landmarkList[i][1:] for i in range(len(landmarkList))}
+        return [
+            self.calculateAngle(self.get_point(11, lmlist), self.get_point(13, lmlist), self.get_point(15, lmlist)),  # leftElbowAngle
+            self.calculateAngle(self.get_point(12, lmlist), self.get_point(14, lmlist), self.get_point(16, lmlist)),  # rightElbowAngle
+            self.calculateAngle(self.get_point(23, lmlist), self.get_point(25, lmlist), self.get_point(27, lmlist)),  # leftKneeAngle
+            self.calculateAngle(self.get_point(24, lmlist), self.get_point(26, lmlist), self.get_point(28, lmlist)),  # rightKneeAngle
+            self.calculateAngle(self.get_point(13, lmlist), self.get_point(11, lmlist), self.get_point(23, lmlist)),  # leftShoulderAngle
+            self.calculateAngle(self.get_point(14, lmlist), self.get_point(12, lmlist), self.get_point(24, lmlist)),  # rightShoulderAngle
+            self.calculateAngle(self.get_point(11, lmlist), self.get_point(23, lmlist), self.get_point(25, lmlist)),  # leftHipAngle
+            self.calculateAngle(self.get_point(12, lmlist), self.get_point(24, lmlist), self.get_point(26, lmlist)),  # rightHipAngle
+        ]
 
-        # Define joints dynamically
-        self.leftElbowAngle = Joint("leftElbow", self.landmarks[11], self.landmarks[13], self.landmarks[15])
-        self.rightElbowAngle = Joint("rightElbow", self.landmarks[12], self.landmarks[14], self.landmarks[16])
-        self.leftKneeAngle = Joint("leftKnee", self.landmarks[23], self.landmarks[25], self.landmarks[27])
-        self.rightKneeAngle = Joint("rightKnee", self.landmarks[24], self.landmarks[26], self.landmarks[28])
-        self.leftShoulderAngle = Joint("leftShoulder", self.landmarks[13], self.landmarks[11], self.landmarks[23])
-        self.rightShoulderAngle = Joint("rightShoulder", self.landmarks[14], self.landmarks[12], self.landmarks[24])
-       
-        # Corrected indexing for target angles
-        self.targetLeftElbowAngle = targetAngleList[0]
-        self.targetRightElbowAngle = targetAngleList[1]
-        self.targetLeftKneeAngle = targetAngleList[2]
-        self.targetRightKneeAngle = targetAngleList[3]
-        self.targetLeftShoulderAngle = targetAngleList[4]
-        self.targetRightShoulderAngle = targetAngleList[5]
-        
-    def checkJoint(self, joint, frame_count):
-        target_angle = getattr(self, f"target{joint.name}Angle", None)  # Change this line to something else. idk how we are storing or calling the data. this data tbh. 
-        if target_angle is not None:
-            diff = abs(joint.angle - target_angle)
-            if diff > 10:
-                joint.faultTime += 1 
-                print(f"{joint.name} misaligned! Deviation: {diff} degrees")
-        else:
-            print(f"Target angle for {joint.name} not found")
+    def get_point(self, idx, lmlist):
+        return (lmlist[idx][1], lmlist[idx][2]) if idx in range(len(lmlist)) else (0, 0)
+
+
+
+    def checkPose(self, quickTimer, currAngles, wantedPose, frameCounter):
+        THRESHOLD = 10  # Define a threshold for pose correctness
+
+        if frameCounter % 5 == 0:
+            for i in range(len(wantedPose)):
+                if time.time() - quickTimer > 5:
+                    if abs(currAngles[i] - float(wantedPose[i])) > THRESHOLD:  # Convert to float
+                        print("You are not in the right pose")
+                        return quickTimer
+                    else:
+                        quickTimer = time.time()
+                        return quickTimer
+                else:
+                    if (abs(currAngles[i] - float(wantedPose[i])) > THRESHOLD):  # Convert to float
+                        quickTimer = time.time()
+                        print('YOu are in the correct pose')
+                        return quickTimer
+
+        return quickTimer
