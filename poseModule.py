@@ -37,3 +37,4 @@ class poseDetector():
                 if draw:
                     cv2.circle(frame, (cx, cy), 5, (255, 0, 0), cv2.FILLED)
         return lmList
+
