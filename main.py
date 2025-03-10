@@ -13,7 +13,7 @@ camera = cv2.VideoCapture(0)
 detector = poseModule.poseManager()  # Use poseManager from poseModule
 
 def generate_frames():
-    wantedPose = getPoseData("mountainPose.png")
+    wantedPose = getPoseData("WarriorPose.png")
     frameCounter = 0
     quickTimer = time.time()
     mainTimer = time.time()

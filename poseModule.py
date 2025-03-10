@@ -85,8 +85,12 @@ class poseManager():
                 if(i < len(currAngles) and i < len(wantedPose)):
                     if abs(currAngles[i] - float(wantedPose[i])) > THRESHOLD:
                         incorrect_pose = True
+                        print("You are not in the right pose")
                         break
-            
+                        
+                    else:
+                        print("u are doing the right pose")
+
             if incorrect_pose:
                 if time.time() - quickTimer > 5:
                     print("Timed out attempt, sorry")

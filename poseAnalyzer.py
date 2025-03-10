@@ -87,7 +87,7 @@ def pushToCSV(name, anglesDic):
 
 
 pose_analyzer = poseAnalyzer()
-image_path = "posePictures/mountainPose.png"
+image_path = "posePictures/WarriorPose.png"
 
 
 angles = pose_analyzer.analyzePose(image_path)
