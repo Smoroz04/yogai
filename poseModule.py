@@ -97,7 +97,7 @@ class poseManager():
                 return time.time(), False, True
         return quickTimer, False, False
     
-    def getAngles ( self, poseName):
+    def getPoseData ( self, poseName):
         csv = pd.read_csv('posesData.csv')
         for eachline in csv:
             if eachline[0] == poseName:
