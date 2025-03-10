@@ -3,8 +3,9 @@ import cv2
 import time
 import poseModule  # Import the external pose module
 
+
 app = Flask(__name__)
-camera = cv2.VideoCapture(2)
+camera = cv2.VideoCapture(0)
 detector = poseModule.poseManager()  # Use poseManager from poseModule
 
 def generate_frames():

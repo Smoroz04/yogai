@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import time
+import pandas as pd
 
 class poseManager():
     def __init__(self, mode=False, upBody=False, smooth=True, detectionCon=0.5, trackCon=0.5):
@@ -95,6 +96,16 @@ class poseManager():
             else:
                 return time.time(), False, True
         return quickTimer, False, False
+    
+    def getAngles ( self, poseName):
+        csv = pd.read_csv('posesData.csv')
+        for eachline in csv:
+            if eachline[0] == poseName:
+                return eachline[1:]
+        return None
+    
+        
+
 
     
     # def checkPose(self, quickTimer, currAngles, wantedPose, frameCounter):
