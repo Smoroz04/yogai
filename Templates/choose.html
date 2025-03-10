@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: 'Montserrat', sans-serif;
+		}
+
+		main {
+			padding: 4rem 2rem;
+		}
+
+		h1 {
+			text-align: center;
+			font-size: 2.5rem;
+			margin-bottom: 4rem;
+		}
+
+        h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+		.buttons {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.button {
+			appearance: none;
+			border: none;
+			outline: none;
+			background: none;
+			cursor: pointer;
+			font-size: 1.25rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			padding: 1rem 1.5rem;
+			border-radius: 0.5rem;
+			background-color: rgb(69, 119, 54);
+			color: white;
+			margin-bottom: 2rem;
+		}
+
+		#one {
+			background-image: linear-gradient(to right, rgb(65, 110, 59) 50%, rgb(30, 55, 22) 50%);
+			background-size: 200%;
+			transition: 0.4s ease-out;
+			background-position: right; /* Set initial position */
+		}
+
+		#one:hover {
+			background-position: left; /* Move to the left on hover */
+		}
+
+	</style>
+</head>
+<body>
+	<main>
+		<h1>YOGAI</h1>
+        <h2>What Pose would you like to do? </h2>
+		<div class="buttons">
+            <a href="{{ url_for('video_feed', pose='WarriorPose.png') }}" class="button-link">
+                <button class="button">
+                    <span>Warrior Pose</span>
+                </button>
+            </a>
+		</div>
+        <div class="buttons">
+            <a href="{{ url_for('video_feed', pose='mountainPose.png') }}" class="button-link">
+                <button class="button">
+                    <span>Mountain Pose</span>
+                </button>
+            </a>
+    </div>
+	</main>
+</body>
+</html>
