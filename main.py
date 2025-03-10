@@ -2,6 +2,10 @@ from flask import Flask, Response
 import cv2
 import time
 import poseModule  # Import the external pose module
+import pandas as pd
+import csv
+
+
 
 
 app = Flask(__name__)
@@ -59,7 +63,20 @@ def generate_frames():
                     print("CONGRATULATIONS")
                     activeAttempt = False
 
+def getPoseData (poseName):
+        csv = pd.read_csv('posesData.csv')
+        for eachline in csv:
+            if eachline[0] == poseName:
+                return eachline[1:]
+        return None
+def getPoseData (poseName):
+    with open('poseData.csv', mode='r') as csv_data:
+        reader = csv.reader(csv_data, delimiter=",")
+        for row in reader:
+            if row[0] == poseName:
+                return row[1:]
 
+        
 
 @app.route('/video')
 def video_feed():
