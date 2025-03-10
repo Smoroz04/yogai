@@ -1,4 +1,4 @@
-from flask import Flask, Response
+from flask import Flask, Response, render_template
 import cv2
 import time
 import poseModule  # Import the external pose module
@@ -76,7 +76,10 @@ def getPoseData (poseName):
             if row[0] == poseName:
                 return row[1:]
 
-        
+@app.route('/start')
+def start():
+    return render_template('index.html')
+         
 
 @app.route('/video')
 def video_feed():
