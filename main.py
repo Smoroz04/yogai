@@ -76,7 +76,7 @@ def getPoseData (poseName):
             if row[0] == poseName:
                 return row[1:]
 
-@app.route('/start')
+@app.route('/index')
 def start():
     return render_template('index.html')
          
