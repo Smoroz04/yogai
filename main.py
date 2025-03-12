@@ -86,8 +86,12 @@ def choose():
          
 @app.route('/video')
 def video_feed():
-    pose_name = request.args.get('pose', 'WarriorPose') # Default pose is WarriorPose
+    pose_name = request.args.get('pose', 'WarriorPose.png')
     return Response(generate_frames(pose_name), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/display')
+def display():
+    return render_template('display.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

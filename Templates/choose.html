@@ -54,33 +54,41 @@
 			background-image: linear-gradient(to right, rgb(65, 110, 59) 50%, rgb(30, 55, 22) 50%);
 			background-size: 200%;
 			transition: 0.4s ease-out;
-			background-position: right; /* Set initial position */
+			background-position: right; 
 		}
 
 		#one:hover {
-			background-position: left; /* Move to the left on hover */
+			background-position: left; 
 		}
 
 	</style>
 </head>
+
+
 <body>
-	<main>
-		<h1>YOGAI</h1>
-        <h2>What Pose would you like to do? </h2>
-		<div class="buttons">
-            <a href="{{ url_for('video_feed', pose='WarriorPose.png') }}" class="button-link">
-                <button class="button">
-                    <span>Warrior Pose</span>
-                </button>
-            </a>
-		</div>
-        <div class="buttons">
-            <a href="{{ url_for('video_feed', pose='mountainPose.png') }}" class="button-link">
-                <button class="button">
-                    <span>Mountain Pose</span>
-                </button>
-            </a>
-    </div>
-	</main>
+	<h1>YOGAI</h1>
+	<h2>What Pose would you like to do?</h2>
+	
+	<div class="buttons">
+		<button class="button" id="one" onclick="selectPose('WarriorPose.png')">
+			<span>Warrior Pose</span>
+		</button>
+	</div>
+
+	<div class="buttons">
+		<button class="button" id="one" onclick="selectPose('mountainPose.png')">
+			<span>Mountain Pose</span>
+		</button>
+	</div>
+
+	<script>
+		function selectPose(pose) {
+			localStorage.setItem("selectedPose", pose); // Store user choice
+			window.location.href = "/display"; // Redirect to display page
+		}
+	</script>
+
 </body>
 </html>
+ 
+ 
