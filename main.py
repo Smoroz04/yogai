@@ -12,7 +12,11 @@ app = Flask(__name__)
 camera = cv2.VideoCapture(0)
 detector = poseModule.poseManager()  # Use poseManager from poseModule
 
-
+def save_joint_angles_to_csv(currAngles, filename="joint_angles.csv"):
+    """Append joint angles to a CSV file."""
+    with open(filename, mode="a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(currAngles)
 
 def generate_frames(poseName):
     wantedPose = getPoseData(poseName)
@@ -51,6 +55,11 @@ def generate_frames(poseName):
 
             if(activeAttempt):
                 currAngles = detector.get_joint_angles(lmlist)
+
+                if currAngles:
+                  save_joint_angles_to_csv(currAngles)
+
+
                 if elapsed_time < 10:
                     frameCounter += 1
                     quickTimer, resetMainTimer, changeBorder = detector.checkPose(quickTimer, currAngles, wantedPose, frameCounter)

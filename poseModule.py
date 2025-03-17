@@ -102,7 +102,6 @@ class poseManager():
                 return time.time(), False, True
         return quickTimer, False, False
     
-
         
 
 
