@@ -21,17 +21,24 @@ def load_attempts(filename="joint_angles.csv"):
     return attempts
 
 def calculate_accuracy(attempts, reference_pose):
-    """Calculate the accuracy of each attempt compared to the reference pose."""
+    
     accuracy_scores = []
     THRESHOLD = 10  # Acceptable angle deviation in degrees
     
     for attempt in attempts:
-        differences = np.abs(np.array(attempt) - np.array(reference_pose))
-        accuracy = 100 - (np.mean(differences) / THRESHOLD * 100)
-        accuracy = max(0, accuracy)  # Ensure score doesn't go below 0
-        accuracy_scores.append(accuracy)
-    
+        if (abs(attempt[0] - reference_pose[0]) >= 10) or abs(attempt[1] - reference_pose[1]) >= 10 or abs(attempt[2] - reference_pose[2]) >= 10 or abs(attempt[3] - reference_pose[3]) >= 10 or abs(attempt[4] - reference_pose[4]) >= 10 or abs(attempt[5] - reference_pose[5]) >= 10:
+            accuracy_scores.append(0)
+        else: 
+            accuracy_scores.append(1)
     return accuracy_scores
+
+def calculatePercentage(accuracyScoreArray):
+    counter = 0
+    for eachAttempt in accuracyScoreArray:
+        if eachAttempt == 1:
+            counter += 1
+    percentageAccuracy = (counter/ len(accuracyScoreArray)) * 100
+    return percentageAccuracy
 
 def main():
     pose_name = "WarriorPose.png"  # Change to the relevant pose name
@@ -46,11 +53,7 @@ def main():
         print("Error: No recorded attempts found.")
         return
     
-    accuracy_scores = calculate_accuracy(attempts, reference_pose)
-    df = pd.DataFrame({"Attempt": range(1, len(accuracy_scores) + 1), "Accuracy (%)": accuracy_scores})
-    print(df)
-    df.to_csv("pose_accuracy_report.csv", index=False)
-    print("Pose accuracy report saved as pose_accuracy_report.csv")
+    percentageAccuracy = calculatePercentage(calculate_accuracy(attempts,reference_pose))
+    print("This is the accuracy i hope it works! ", percentageAccuracy)
 
-if __name__ == "__main__":
-    main()
+main()
