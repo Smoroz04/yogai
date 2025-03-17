@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: 'Montserrat', sans-serif;
+		}
+
+		main {
+			padding: 4rem 2rem;
+		}
+
+		h1 {
+			text-align: center;
+			font-size: 2.5rem;
+			margin-bottom: 4rem;
+		}
+
+        h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+		.buttons {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.button {
+			appearance: none;
+			border: none;
+			outline: none;
+			background: none;
+			cursor: pointer;
+			font-size: 1.25rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			padding: 1rem 1.5rem;
+			border-radius: 0.5rem;
+			background-color: rgb(69, 119, 54);
+			color: white;
+			margin-bottom: 2rem;
+		}
+
+		#one {
+			background-image: linear-gradient(to right, rgb(65, 110, 59) 50%, rgb(30, 55, 22) 50%);
+			background-size: 200%;
+			transition: 0.4s ease-out;
+			background-position: right;
+		}
+
+		#one:hover {
+			background-position: left;
+		}
+
+		.container {
+			display: flex;
+			justify-content: center;  /* Centers horizontally */
+			align-items: center;      /* Centers vertically */
+			gap: 20px;  /* Space between elements */
+			margin-top: 20px;
+		}
+
+		.videoElement, .pose-reference {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		#videoStream, #poseImage {
+			width: 480px;  /* Set a fixed width */
+			height: 360px; /* Set a fixed height */
+			border: 3px solid #333;
+			border-radius: 10px;
+		}
+
+
+
+
+	</style>
+</head>
+
+<body>
+    <h1>Yoga AI Pose Guide</h1>
+    <div class="container">
+        
+        <div class="videoElement">
+            <h2>Camera Feed</h2>
+            <img id="videoStream" alt="Live Camera Feed">
+        </div>
+		<div class="pose-reference">
+            <h2>Pose Reference</h2>
+			<img id="poseImage" src="" alt="Reference Pose">
+        </div>
+    </div>
+
+    <script>
+        //   selected pose
+        const selectedPose = localStorage.getItem("selectedPose") || "WarriorPose.png";
+
+        //  video feed 
+        document.getElementById("videoStream").src = `/video?pose=${selectedPose}`;
+
+		const poseImages = {
+            "mountainPose.png": "{{ url_for('static', filename='posePictures/mountainPose.png') }}",
+            "WarriorPose.png": "{{ url_for('static', filename='posePictures/WarriorPose.png') }}"
+        };
+
+        //  pose image
+		document.getElementById("poseImage").src = poseImages[selectedPose] 
+
+
+    </script>
+</body>
+</html>
