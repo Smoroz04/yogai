@@ -74,33 +74,43 @@ class poseManager():
 
 
 
-    def checkPose(self, quickTimer, currAngles, wantedPose, frameCounter):
+    def checkPose(self, quickTimer, currAngles, wantedPose, frameCounter,currColor):
         THRESHOLD = 10
 
         if frameCounter % 5 == 0:
             incorrect_pose = False
-
             for i in range(len(currAngles)):
-                print(time.time() - quickTimer)
-
                 if(i < len(currAngles) and i < len(wantedPose)):
+                    print("CurrAngles:",currAngles[i],"WantedPose: ",wantedPose[i])
                     if abs(currAngles[i] - float(wantedPose[i])) > THRESHOLD:
                         incorrect_pose = True
-                        print("You are not in the right pose")
-                        break
-                        
-                    else:
-                        print("u are doing the right pose")
-
+                        break  
             if incorrect_pose:
-                if time.time() - quickTimer > 5:
-                    print("Timed out attempt, sorry")
-                    return time.time(), True, True
+                # If theres an incorrect post AND 
+                # the quick timer is longer that two 
+                # seconds(Meaning that the person is 
+                # in the wrong pose for more than 2 seconds)
+                if (time.time() - quickTimer) > 2:
+                    print("You are in the wrong pose")
+                    # Returns true, with the quicktimer 
+                    # thats more than 2 seconds and True 
+                    # so that the color changes to red
+                    return quickTimer, True, "red"
                 else:
-                    return quickTimer, False, False
+                    # if the timer is not longer that 2 seconds, 
+                    # but they are still in the incorrect pose, 
+                    # return the quicktimer and green as the color
+                    print("This is returning the quick timer")
+                    return quickTimer, False, "green"
             else:
-                return time.time(), False, True
-        return quickTimer, False, False
+                # The pose they are doing is good, 
+                # so its green and the quick timer is restarted
+                print("this is returning a new quick timer")
+                return time.time(), False, "green"
+        if (currColor == "green"):
+            return quickTimer, False, "green"
+        else:
+            return quickTimer, True, "red"
     
         
 
