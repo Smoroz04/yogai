@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 def load_reference_pose(pose_name, filename="poseData.csv"):
-    """Load the reference joint angles for a given pose from poseData.csv."""
+    #Load the reference joint angles for a given pose from poseData.csv.
     with open(filename, mode='r') as file:
         reader = csv.reader(file)
         for row in reader:
@@ -12,7 +12,7 @@ def load_reference_pose(pose_name, filename="poseData.csv"):
     return None
 
 def load_attempts(filename="joint_angles.csv"):
-    """Load all recorded joint angle attempts from joint_angles.csv."""
+    #Load all recorded joint angle attempts from joint_angles.csv.
     attempts = []
     with open(filename, mode='r') as file:
         reader = csv.reader(file)
@@ -20,17 +20,40 @@ def load_attempts(filename="joint_angles.csv"):
             attempts.append(list(map(float, row)))
     return attempts
 
-def calculate_accuracy(attempts, reference_pose):
+def calculate_accuracy(attempts, reference_pose, threshold):
     
     accuracy_scores = []
-    THRESHOLD = 10  # Acceptable angle deviation in degrees
+    threshold = 10  # Acceptable angle deviation in degrees
     
     for attempt in attempts:
-        if (abs(attempt[0] - reference_pose[0]) >= 10) or abs(attempt[1] - reference_pose[1]) >= 10 or abs(attempt[2] - reference_pose[2]) >= 10 or abs(attempt[3] - reference_pose[3]) >= 10 or abs(attempt[4] - reference_pose[4]) >= 10 or abs(attempt[5] - reference_pose[5]) >= 10:
+        if (abs(attempt[0] - reference_pose[0]) >= threshold) or abs(attempt[1] - reference_pose[1]) >= threshold or abs(attempt[2] - reference_pose[2]) >= threshold or abs(attempt[3] - reference_pose[3]) >= threshold or abs(attempt[4] - reference_pose[4]) >= threshold or abs(attempt[5] - reference_pose[5]) >= threshold:
             accuracy_scores.append(0)
         else: 
             accuracy_scores.append(1)
     return accuracy_scores
+
+def body_accuracy(attempts, reference_pose, threshold):
+    
+    accuracy_upper = []
+    accuracy_lower = []
+    threshold = 10  # Acceptable angle deviation in degrees
+    
+    for attempt in attempts:
+        if (abs(attempt[0] - reference_pose[0]) >= threshold) or abs(attempt[1] - reference_pose[1]) >= threshold or (abs(attempt[4])- reference_pose[4] >= threshold) or (abs(attempt[5] - reference_pose[5]) >= threshold): 
+            accuracy_upper.append(0)
+        else:
+            accuracy_upper.append(1)
+        
+        if (abs(attempt[2] - reference_pose[2]) >= threshold) or abs(attempt[3] - reference_pose[3]) >= threshold or abs(attempt[4] - reference_pose[4]) >= threshold or abs(attempt[5] - reference_pose[5]) >= threshold :
+            accuracy_lower.append(0)
+        else: 
+            accuracy_lower.append(1)
+    lowerBodyScore = calculatePercentage(accuracy_lower)
+    upperBodyScore = calculatePercentage(accuracy_upper)
+    body = [lowerBodyScore, upperBodyScore]
+    return body
+
+
 
 def calculatePercentage(accuracyScoreArray):
     counter = 0
@@ -53,7 +76,10 @@ def main():
         print("Error: No recorded attempts found.")
         return
     
-    percentageAccuracy = calculatePercentage(calculate_accuracy(attempts,reference_pose))
+    percentageAccuracy = calculatePercentage(calculate_accuracy(attempts,reference_pose,10))
     print("This is the accuracy i hope it works! ", percentageAccuracy)
+
+    body = body_accuracy(attempts, reference_pose,10)
+    print("This is the body accuracy: ", body)
 
 main()
