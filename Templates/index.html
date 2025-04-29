@@ -84,28 +84,68 @@
 	  margin-top: 0; /* Ensure there's no extra gap */
     }
 
-    .button {
-      display: inline-block;
-      background-color: #57604b;
-      color: #e6dfd5;
-      padding: 0.75rem 2rem;
-      border-radius: 9999px;
-      font-weight: 500;
-      transition: background-color 0.3s;
-    }
+    .button-container {
+           position: relative;
+           display: inline-block;
+       }
 
-    .button:hover {
-      background-color: #48503c;
-    }
 
-    .button.light {
-      background-color: #c3caba;
-      color: #57604b;
-    }
+       .button-glow {
+           position: absolute;
+           inset: -5px;
+           border-radius: 9999px;
+           background: linear-gradient(90deg, #070a09, #aab4ae, #000000);
+           background-size: 300% 300%;
+           opacity: 1;
+           filter: blur(8px);
+           animation: border-flow 8s ease infinite, glow-pulse 2s ease-in-out infinite;
+           z-index: 1;
+           margin-top: 20px;
+       }
 
-    .button.light:hover {
-      background-color: #a2ab9a;
-    }
+
+       .buttons {
+           position: relative;
+           padding: 16px 32px;
+           background-color: #4a5144;
+           color: white; 
+           font-size: 24px;
+           border-radius: 9999px;
+           border: none;
+           cursor: pointer;
+           z-index: 2;
+           transition: all 0.3s;
+           margin-top: 20px;
+      
+       }
+
+
+       .button:hover {
+           box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+       }
+
+
+       @keyframes border-flow {
+           0%, 100% {
+               background-position: 0% 50%;
+           }
+           50% {
+               background-position: 100% 50%;
+           }
+       }
+
+
+       @keyframes glow-pulse {
+           0%, 100% {
+               inset: -2px;
+               filter: blur(10px);
+           }
+           50% {
+               inset: -3.5px;
+               filter: blur(30px);
+           }
+       }
+
 
 	.scaling-svg {
 		width: 190%;
@@ -127,6 +167,14 @@
     margin-bottom: -2vh;
 	}
 
+  .scaling-svg-step {
+		width: 160%;
+    height: auto;
+    
+    margin-left: -40%; /* Move it left */
+    display: block;
+    margin-bottom: -2vh;
+	}
 	
 	
 	
@@ -205,20 +253,29 @@
       overflow: hidden;
     }
 
+    /* Updated step number styles to match the reference */
     .step-number {
       position: absolute;
       bottom: 0;
       left: 0;
-      background-color: rgba(162, 171, 154, 0.7);
-      width: 6rem;
-      height: 6rem;
-      border-top-right-radius: 1.5rem;
+      right: 0;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 3rem;
-      font-weight: 700;
+      font-size: 6rem;
+      font-weight: 500;
+    }
+
+    .step-number::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(162, 171, 154, 0.5); /* Semi-transparent background */
+      z-index: -1;
     }
 
     .step p {
@@ -363,7 +420,11 @@
       <div class="hero-content">
         <h1>YOGAI</h1>
         <p>the future of yoga training</p>
-        <a href="#" class="button">get started</a>
+        <div class="button-container">
+          <div class="button-glow"></div>
+          <a href="/choose" class="buttons">get started</a>
+        
+      </div>
       </div>
       <div class="hero-image">
         <svg class="scaling-svg" viewBox="0 0 1165 679" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -474,17 +535,18 @@
         <!-- Step 1 -->
         <div class="step">
           <div class="step-image-container">
-            <img src="https://via.placeholder.com/300x300" alt="Step 1">
-            <div class="step-number">1</div>
+            
+            <img src="static/posePictures/step1.png">
+          
           </div>
+          
           <p>complete pose assessment quiz.</p>
         </div>
         
         <!-- Step 2 -->
         <div class="step">
           <div class="step-image-container">
-            <img src="https://via.placeholder.com/300x300" alt="Step 2">
-            <div class="step-number">2</div>
+            <img src="static/posePictures/step2.png">
           </div>
           <p>learn the pose and start the pose timer.</p>
         </div>
@@ -492,8 +554,7 @@
         <!-- Step 3 -->
         <div class="step">
           <div class="step-image-container">
-            <img src="https://via.placeholder.com/300x300" alt="Step 3">
-            <div class="step-number">3</div>
+            <img src="static/posePictures/step3.png">
           </div>
           <p>receive marking feedback and reattempt.</p>
         </div>
@@ -568,5 +629,9 @@
       </div>
     </div>
   </footer>
+  <script>
+        
+
+</script>
 </body>
 </html>

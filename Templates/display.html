@@ -109,10 +109,11 @@
         //  video feed 
         document.getElementById("videoStream").src = `/video?pose=${selectedPose}`;
 
-		const poseImages = {
+		const poseImages = 
+{
             "mountainPose.png": "{{ url_for('static', filename='posePictures/mountainPose.png') }}",
             "WarriorPose.png": "{{ url_for('static', filename='posePictures/WarriorPose.png') }}"
-        };
+        }
 
         //  pose image
 		document.getElementById("poseImage").src = poseImages[selectedPose] 

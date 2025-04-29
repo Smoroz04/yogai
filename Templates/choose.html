@@ -1,94 +1,470 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-			font-family: 'Montserrat', sans-serif;
-		}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pose Library - YOGAI</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
 
-		main {
-			padding: 4rem 2rem;
-		}
+    body {
+      background-color: #e6dfd5;
+      color: #57604b;
+      line-height: 1.6;
+    }
 
-		h1 {
-			text-align: center;
-			font-size: 2.5rem;
-			margin-bottom: 4rem;
-		}
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-        h2 {
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-        }
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
 
-		.buttons {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-		}
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
 
-		.button {
-			appearance: none;
-			border: none;
-			outline: none;
-			background: none;
-			cursor: pointer;
-			font-size: 1.25rem;
-			font-weight: 700;
-			text-transform: uppercase;
-			padding: 1rem 1.5rem;
-			border-radius: 0.5rem;
-			background-color: rgb(69, 119, 54);
-			color: white;
-			margin-bottom: 2rem;
-		}
+    /* Header styles */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
 
-		#one {
-			background-image: linear-gradient(to right, rgb(65, 110, 59) 50%, rgb(30, 55, 22) 50%);
-			background-size: 200%;
-			transition: 0.4s ease-out;
-			background-position: right; 
-		}
+    .logo {
+      font-weight: 500;
+      font-size: 1.25rem;
+    }
 
-		#one:hover {
-			background-position: left; 
-		}
+    .menu-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #57604b;
+    }
 
-	</style>
+    /* Hero section styles */
+    .hero {
+      padding: 2rem 0 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .hero-image {
+      width: 150px;
+    }
+
+    /* Pose grid styles */
+    .pose-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .pose-card {
+      background-color: #57604b;
+      border-radius: 2rem;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+      padding-bottom: 1.5rem;
+    }
+
+    .pose-image {
+      width: 100%;
+      height: 200px;
+      background-color: #e6dfd5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .pose-image img {
+      max-height: 100%;
+      width: auto;
+    }
+
+    .pose-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+    }
+
+    .pose-name {
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin-top: 1rem;
+      text-transform: uppercase;
+    }
+
+    .pose-difficulty {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* CTA section styles */
+    .cta-section {
+      background-color: #57604b;
+      color: white;
+      padding: 3rem 0;
+      margin-top: 2rem;
+    }
+
+    .cta-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .cta-image {
+      width: 200px;
+      margin-bottom: 2rem;
+    }
+
+    .cta-text {
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-heading {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-top: 0.5rem;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #c3caba;
+      color: #57604b;
+      padding: 0.75rem 2rem;
+      border-radius: 9999px;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+
+    .button:hover {
+      background-color: #a2ab9a;
+    }
+
+    /* Footer styles */
+    footer {
+      background-color: #e6dfd5;
+      color: #57604b;
+      padding: 3rem 0;
+      border-top: 1px solid rgba(87, 96, 75, 0.2);
+    }
+
+    .footer-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-top {
+      margin-bottom: 2rem;
+    }
+
+    .footer-logo {
+      font-weight: 500;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-icon {
+      color: #57604b;
+      transition: color 0.3s;
+    }
+
+    .social-icon:hover {
+      opacity: 0.7;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem 2rem;
+    }
+
+    .footer-column h3 {
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-column a {
+      color: #57604b;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    .footer-column a:hover {
+      opacity: 1;
+    }
+
+    /* Responsive styles */
+    @media (min-width: 768px) {
+      .pose-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cta-container {
+        flex-direction: row;
+        text-align: left;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .cta-content {
+        width: 60%;
+        padding-left: 2rem;
+      }
+
+      .cta-image {
+        margin-bottom: 0;
+      }
+
+      .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .footer-top {
+        margin-bottom: 0;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .pose-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .hero h1 {
+        font-size: 5rem;
+      }
+    }
+  </style>
 </head>
-
-
 <body>
-	<h1>YOGAI</h1>
-	<h2>What Pose would you like to do?</h2>
-	
-	<div class="buttons">
-		<button class="button" id="one" onclick="selectPose('WarriorPose.png')">
-			<span>Warrior Pose</span>
-		</button>
-	</div>
+  <!-- Header -->
+  <div class="container">
+    <header>
+      <div class="logo">YOGAI</div>
+      <button class="menu-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+  </div>
 
-	<div class="buttons">
-		<button class="button" id="one" onclick="selectPose('mountainPose.png')">
-			<span>Mountain Pose</span>
-		</button>
-	</div>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>
+          POSE<br>LIBRARY
+        </h1>
+        <div class="hero-image">
+          <img src="https://via.placeholder.com/150x200" alt="Yoga pose illustration">
+        </div>
+      </div>
+    </div>
+  </section>
 
-	<script>
-		function selectPose(pose) {
-			localStorage.setItem("selectedPose", pose); // Store user choice
-			window.location.href = "/display"; // Redirect to display page
-		}
-	</script>
+  <!-- Pose Grid Section -->
+  <section>
+    <div class="container">
+      <div class="pose-grid">
+        <!-- Pose 1 -->
+        <div class="pose-card">
+          <div class="pose-image">
+            <img src="https://via.placeholder.com/300x200" alt="Boat pose">
+          </div>
+          <div class="pose-name">BOAT</div>
+          <div class="pose-difficulty">medium difficulty</div>
+        </div>
 
+        <!-- Pose 2 -->
+        <div class="pose-card">
+          <div class="pose-image">
+            <img src="https://via.placeholder.com/300x200" alt="Half Lord of the Fishes pose">
+          </div>
+          <div class="pose-name">HALF LORD OF THE FISHES</div>
+          <div class="pose-difficulty">medium difficulty</div>
+        </div>
+
+        <!-- Pose 3 -->
+        <div class="pose-card">
+          <div class="pose-image">
+            <img src="https://via.placeholder.com/300x200" alt="Dancer pose">
+          </div>
+          <div class="pose-name">DANCER POSE</div>
+          <div class="pose-difficulty">medium difficulty</div>
+        </div>
+
+        <!-- Pose 4 -->
+        <div class="pose-card">
+          <div class="pose-image">
+            <img src="https://via.placeholder.com/300x200" alt="Revolved Triangle pose">
+          </div>
+          <div class="pose-name">REVOLVED TRIANGLE</div>
+          <div class="pose-difficulty">medium difficulty</div>
+        </div>
+
+        <!-- Pose 5 -->
+        <div class="pose-card">
+          <div class="pose-image">
+            <img src="https://via.placeholder.com/300x200" alt="Child pose">
+          </div>
+          <div class="pose-name">CHILD</div>
+          <div class="pose-difficulty">easy difficulty</div>
+        </div>
+
+        <!-- Pose 6 -->
+        <div class="pose-card">
+          <div class="pose-image">
+            <img src="https://via.placeholder.com/300x200" alt="Chair pose">
+          </div>
+          <div class="pose-name">CHAIR</div>
+          <div class="pose-difficulty">medium difficulty</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container cta-container">
+      <div class="cta-image">
+        <img src="https://via.placeholder.com/200x300" alt="Yoga pose illustration">
+      </div>
+      <div class="cta-content">
+        <div class="cta-text">don't know what pose to pick?</div>
+        <h2 class="cta-heading">TAKE A QUIZ TO FIND THE RIGHT POSE FOR YOU</h2>
+        <a href="#" class="button">start quiz</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-container">
+      <div class="footer-top">
+        <div class="footer-logo">YOGAI</div>
+        <div class="social-icons">
+          <!-- Twitter Icon -->
+          <a href="#" class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+            </svg>
+          </a>
+          <!-- Instagram Icon -->
+          <a href="#" class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+            </svg>
+          </a>
+          <!-- YouTube Icon -->
+          <a href="#" class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
+              <path d="m10 15 5-3-5-3z"></path>
+            </svg>
+          </a>
+          <!-- LinkedIn Icon -->
+          <a href="#" class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect width="4" height="12" x="2" y="9"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-links">
+        <div class="footer-column">
+          <h3>Explore</h3>
+          <ul>
+            <li><a href="#">Design</a></li>
+            <li><a href="#">Prototyping</a></li>
+            <li><a href="#">Development features</a></li>
+            <li><a href="#">Design systems</a></li>
+            <li><a href="#">Collaboration features</a></li>
+            <li><a href="#">Design process</a></li>
+            <li><a href="#">FigJam</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Use cases</h3>
+          <ul>
+            <li><a href="#">UI design</a></li>
+            <li><a href="#">UX design</a></li>
+            <li><a href="#">Wireframing</a></li>
+            <li><a href="#">Diagramming</a></li>
+            <li><a href="#">Brainstorming</a></li>
+            <li><a href="#">Online whiteboard</a></li>
+            <li><a href="#">Team collaboration</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
- 
  
