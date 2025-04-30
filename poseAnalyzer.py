@@ -4,6 +4,8 @@ import numpy as np
 import csv
 import time
 
+
+
 class poseAnalyzer():
     def __init__(self):
         self.mpDraw = mp.solutions.drawing_utils
@@ -33,8 +35,8 @@ class poseAnalyzer():
         c = np.array(c) 
 
         # Finding the vectors
-        ab = a - b 
-        cb = c - b  
+        ab = a - b
+        cb = c - b
 
         # Dot product
         cosine_angle = np.dot(ab, cb) / (np.linalg.norm(ab) * np.linalg.norm(cb))
@@ -78,7 +80,6 @@ class poseAnalyzer():
             return None
         return angles
 
-
 def pushToCSV(name, anglesDic):
     with open("poseData.csv", "a", newline="") as file: 
         writer = csv.writer(file)
@@ -87,7 +88,7 @@ def pushToCSV(name, anglesDic):
 
 
 pose_analyzer = poseAnalyzer()
-image_path = "posePictures/WarriorPose.png"
+image_path = "static/posePictures/halfLordOfTheFishes.png"
 
 
 angles = pose_analyzer.analyzePose(image_path)
