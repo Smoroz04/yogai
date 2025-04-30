@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dancer Pose - YOGAI</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #e6dfd5;
+      color: #57604b;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header styles */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      font-weight: 500;
+      font-size: 1.25rem;
+    }
+
+    .menu-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #57604b;
+    }
+
+    /* Main content styles */
+    .main-content {
+      flex: 1;
+      padding: 2rem 0;
+    }
+
+    .pose-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      color: #57604b;
+    }
+
+    .pose-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .pose-info {
+      background-color: #c3caba;
+      border-radius: 2rem;
+      padding: 2rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-section {
+      margin-bottom: 2rem;
+    }
+
+    .info-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #57604b;
+    }
+
+    .info-text {
+      color: #57604b;
+      opacity: 0.9;
+    }
+
+    .pose-image {
+      background-color: #fff;
+      border-radius: 2rem;
+      overflow: hidden;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .pose-image img {
+      width: 100%;
+      height: auto;
+    }
+
+    .cta-button {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #57604b;
+      color: white;
+      text-align: center;
+      padding: 1rem 2rem;
+      border-radius: 9999px;
+      font-weight: 500;
+      font-size: 1.25rem;
+      transition: background-color 0.3s;
+    }
+
+    .cta-button:hover {
+      background-color: #48503c;
+    }
+
+    /* Responsive styles */
+    @media (min-width: 768px) {
+      .pose-content {
+        flex-direction: row;
+      }
+
+      .pose-info {
+        width: 40%;
+      }
+
+      .pose-image {
+        width: 60%;
+      }
+
+      .pose-title {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="container">
+    <header>
+      <div class="logo">YOGAI</div>
+      <button class="menu-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <h1 class="pose-title">DANCER POSE</h1>
+      
+      <div class="pose-content">
+        <div class="pose-info">
+          <div class="info-section">
+            <h2 class="info-title">ABOUT</h2>
+            <p class="info-text">then we would talk about</p>
+          </div>
+          
+          <div class="info-section">
+            <h2 class="info-title">POSE BENEFITS</h2>
+            <p class="info-text">then we would talk about</p>
+          </div>
+        </div>
+        
+        <div class="pose-image">
+          <img src="https://via.placeholder.com/800x600" alt="Woman demonstrating Dancer Pose">
+        </div>
+      </div>
+      
+      <a href="#" class="cta-button">get started</a>
+    </div>
+  </main>
+</body>
+</html>

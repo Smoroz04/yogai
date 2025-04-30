@@ -111,5 +111,9 @@ def video_feed():
 def display():
     return render_template('display.html')
 
+@app.route('/before')
+def before():
+    return render_template('before.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
