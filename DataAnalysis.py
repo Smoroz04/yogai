@@ -64,7 +64,7 @@ def calculatePercentage(accuracyScoreArray):
     return percentageAccuracy
 
 def main():
-    pose_name = "WarriorPose.png"  # Change to the relevant pose name
+    pose_name = "mountainPose.png"  # Change to the relevant pose name
     reference_pose = load_reference_pose(pose_name)
     
     if reference_pose is None:
