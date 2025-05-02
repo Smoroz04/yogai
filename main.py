@@ -1,7 +1,7 @@
 from flask import Flask, Response, render_template, request
 import cv2
 import time
-import poseModule  # Import the external pose module
+import poseModule
 import pandas as pd
 import csv
 
@@ -9,8 +9,6 @@ import csv
 
 
 app = Flask(__name__)
-camera = cv2.VideoCapture(0)
-detector = poseModule.poseManager()  # Use poseManager from poseModule
 
 def save_joint_angles_to_csv(currAngles, filename="joint_angles.csv"):
     """Append joint angles to a CSV file."""
@@ -19,6 +17,8 @@ def save_joint_angles_to_csv(currAngles, filename="joint_angles.csv"):
         writer.writerow(currAngles)
 
 def generate_frames(poseName):
+    camera = cv2.VideoCapture(0)
+    detector = poseModule.poseManager()
     wantedPose = getPoseData(poseName)
     frameCounter = 0
     quickTimer = time.time()
@@ -27,7 +27,7 @@ def generate_frames(poseName):
     border_colour = (0, 0, 255)
     clearCSV("joint_angles.csv")
     currColor = "green"
-
+    countDownDuration = 3
 
     while True:
         # Open the camera
@@ -46,7 +46,10 @@ def generate_frames(poseName):
             elapsed_time = time.time() - mainTimer
 
             # idk what the point of this is tbh
-            elapsed_time_text = f"Time: {elapsed_time:.0f}s"  
+            if(elapsed_time < 3):
+                elapsed_time_text = f"Tracking will start in: {3 - elapsed_time:.0f}s"
+            else:
+                elapsed_time_text = f"Time: {(elapsed_time - 3):.0f}s"
 
 
             height, width, _ = frame.shape
@@ -61,7 +64,7 @@ def generate_frames(poseName):
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-            if elapsed_time <= 30:
+            if ((elapsed_time - countDownDuration) <= 29) and (elapsed_time > countDownDuration):
                 currAngles = detector.get_joint_angles(lmlist)
                 if currAngles:
                     save_joint_angles_to_csv(currAngles)
@@ -73,10 +76,13 @@ def generate_frames(poseName):
                 else:
                     # Go Green
                     border_colour = (0,255,0)
+            elif(elapsed_time < countDownDuration):
+                print("we are in countdown")
             else:
-                exit
+                camera.release()
+                exit()
                 
-            
+
 
 
 def clearCSV(csvName):
@@ -93,6 +99,9 @@ def getPoseData(poseName):
                 return row[1:]
     return None
 
+def video_stream():
+    pose_name = request.args.get('pose','mountainPose.png')
+    return generate_frames(pose_name)
 
 @app.route('/index')
 def start():
@@ -101,11 +110,10 @@ def start():
 @app.route('/choose')
 def choose():
     return render_template('choose.html')
-         
+
 @app.route('/video')
 def video_feed():
-    pose_name = request.args.get('pose', 'mountainPose.png')
-    return Response(generate_frames(pose_name), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(video_stream(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/display')
 def display():

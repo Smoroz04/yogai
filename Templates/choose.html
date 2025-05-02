@@ -168,18 +168,38 @@
     }
 
     .button {
-		display: inline-block;
 		background-color: #c3caba;
 		color: #57604b;
 		padding: 0.75rem 2rem;
 		border-radius: 9999px;
 		font-weight: 500;
 		transition: background-color 0.3s;
-		margin-top: 1.5rem; /* 👈 Add this line */
+		margin-top: 1.5rem; 
+		border: none;
+  		outline: none;
     }
 
     .button:hover {
       background-color: #a2ab9a;
+    }
+
+	.button_upload {
+		background-color: #c3caba;
+		color: #57604b;
+		padding: 0.75rem 2rem;
+		border-radius: 9999px;
+		font-weight: 500;
+		transition: background-color 0.3s;
+		margin-top: 1.5rem; 
+		border: none;
+  		outline: none;
+		margin-top: 2.5rem; /* Why is the button not moving down  */
+
+    }
+
+  .button_upload:hover {
+		background-color: #a2ab9a;
+
     }
 
     /* Footer styles */
@@ -342,43 +362,55 @@
       <div class="pose-grid">
         <!-- Pose 1 -->
         <div class="pose-card">
-          <div class="pose-image">
-            <img src="static/posePictures/BOAT POSE.png">
+          <div class="pose-image" >
+			<button class="button" id="one" onclick="selectPose('boatPose.png')">
+            <img src="static/posePictures/BOAT POSE.png" >
+			</button>
           </div>
         </div>
 
         <!-- Pose 2 -->
         <div class="pose-card">
           <div class="pose-image">
+			<button class="button" id="one" onclick="selectPose('halfLordOfTheFishes.png')">
 			<img src="static/posePictures/Half Lord of the fishes.png">
+		</button>
           </div>
         </div>
 
         <!-- Pose 3 -->
         <div class="pose-card">
           <div class="pose-image">
+			<button class="button" id="one" onclick="selectPose('dancerPose.png')">
             <img src="static/posePictures/DANCER POSE.png">
+			</button>
           </div>
         </div>
 
         <!-- Pose 4 -->
         <div class="pose-card">
           <div class="pose-image">
+			<button class="button" id="one" onclick="selectPose('revolvedTrianglePose.png')">
             <img src="static/posePictures/REVOLVED TRIANGLE.png" >
-          </div>
+			</button>
+		</div>
         </div>
 
         <!-- Pose 5 -->
         <div class="pose-card">
           <div class="pose-image">
+			<button class="button" id="one" onclick="selectPose('childPose.png')">
             <img src="static/posePictures/CHILD POSE.png" alt="Child pose">
-          </div>
+		</button>
+		</div>
         </div>
 
         <!-- Pose 6 -->
         <div class="pose-card">
           <div class="pose-image">
-            <img src="static/posePictures/CHAIR.png" alt="Chair pose">
+			<button class="button" id="one" onclick="selectPose('chairPose.png')">
+            <img src="static/posePictures/CHAIR.png" >
+		</button>
           </div>
         </div>
       </div>
@@ -390,11 +422,11 @@
     <div class="container cta-container">
       <div class="cta-image">
         <img src="static/posePictures/LADY POSING .png" >
-      </div>
+	</div>
       <div class="cta-content">
         <div class="cta-text">don't know what pose to pick?</div>
         <h2 class="cta-heading">TAKE A QUIZ TO FIND THE RIGHT POSE FOR YOU</h2>
-        <a href="#" class="button">start quiz</a>
+		<a href="#" class="button_upload">start quiz</a>
       </div>
     </div>
   </section>
@@ -466,6 +498,18 @@
       </div>
     </div>
   </footer>
+
+
+<script>
+	function selectPose(pose) {
+		localStorage.setItem("selectedPose", pose); // Store user choice
+		window.location.href = "/before"; // Redirect to display page
+	}
+</script>
+
+
+
 </body>
+
 </html>
  
