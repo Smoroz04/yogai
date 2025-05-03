@@ -20,6 +20,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden; /* Prevent horizontal scroll from confetti */
     }
 
     a {
@@ -62,7 +63,6 @@
 
     /* Results section styles */
     .results-section {
-      flex: 1;
       padding: 2rem 0;
       position: relative;
     }
@@ -81,6 +81,7 @@
       justify-content: center;
       align-items: center;
       margin-bottom: 4rem;
+      margin-top: 9rem; /* You can adjust this number to move it more or less */
     }
 
     .blob-background {
@@ -115,9 +116,17 @@
       line-height: 1.1;
     }
 
+    .center-accuracy .accuracy-value {
+      color: #e6dfd5;
+    }
+
     .accuracy-label {
       font-size: 1.25rem;
       opacity: 0.9;
+    }
+
+    .center-accuracy .accuracy-label {
+      color: #e6dfd5;
     }
 
     .center-accuracy {
@@ -131,7 +140,7 @@
       flex-direction: column;
       gap: 1rem;
       max-width: 800px;
-      margin: 0 auto;
+      margin: 9rem auto 0 auto; /* Adjust this number */
       padding: 0 1rem;
     }
 
@@ -166,6 +175,17 @@
       background-color: #b0b9a6;
     }
 
+    /* Confetti canvas */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 100;
+      pointer-events: none;
+    }
+
     /* Responsive styles */
     @media (min-width: 768px) {
       .buttons-container {
@@ -183,6 +203,9 @@
   </style>
 </head>
 <body>
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
   <!-- Header -->
   <div class="container">
     <header>
@@ -201,7 +224,7 @@
   <section class="results-section">
     <div class="container">
       <h1 class="results-heading">RESULTS</h1>
-      
+
       <div class="results-container">
         <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Group%2012-3SzLO7bP2Z9i6DQHODiMsGgpP1CP7f.png" alt="Decorative background" class="blob-background">
         
@@ -222,16 +245,102 @@
           </div>
         </div>
       </div>
-      
-      <div class="buttons-container">
-        <a href="#" class="action-button primary-button">reattempt</a>
-        <a href="#" class="action-button secondary-button">try new pose</a>
-      </div>
+    </div>
+
+    <div class="buttons-container">
+      <a href="#" class="action-button primary-button">reattempt</a>
+      <a href="#" class="action-button secondary-button">try new pose</a>
     </div>
   </section>
 
   <script>
+    // Confetti animation
+    class Confetti {
+      constructor() {
+        this.canvas = document.getElementById('confetti-canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.particles = [];
+        this.colors = [
+          '#57604b', // Primary green
+          '#a2ab9a', // Medium green
+          '#c3caba', // Light green
+          '#48503c'  // Dark green
+        ];
+        
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+        this.createParticles();
+        this.animate();
+      }
+      
+      resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+      }
+      
+      createParticles() {
+        const particleCount = 150;
+        
+        for (let i = 0; i < particleCount; i++) {
+          this.particles.push({
+            x: Math.random() * this.canvas.width,
+            y: Math.random() * this.canvas.height - this.canvas.height,
+            size: Math.random() * 8 + 4,
+            color: this.colors[Math.floor(Math.random() * this.colors.length)],
+            shape: Math.random() > 0.5 ? 'circle' : 'rect',
+            speed: Math.random() * 3 + 2,
+            rotation: Math.random() * 360,
+            rotationSpeed: (Math.random() - 0.5) * 2,
+            opacity: Math.random() * 0.8 + 0.2
+          });
+        }
+      }
+      
+      animate() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        let stillActive = false;
+        
+        for (let i = 0; i < this.particles.length; i++) {
+          const p = this.particles[i];
+          
+          p.y += p.speed;
+          p.rotation += p.rotationSpeed;
+          
+          if (p.y < this.canvas.height) {
+            stillActive = true;
+            
+            this.ctx.save();
+            this.ctx.translate(p.x, p.y);
+            this.ctx.rotate(p.rotation * Math.PI / 180);
+            this.ctx.globalAlpha = p.opacity;
+            this.ctx.fillStyle = p.color;
+            
+            if (p.shape === 'circle') {
+              this.ctx.beginPath();
+              this.ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+              this.ctx.fill();
+            } else {
+              this.ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+            }
+            
+            this.ctx.restore();
+          }
+        }
+        
+        if (stillActive) {
+          requestAnimationFrame(() => this.animate());
+        } else {
+          // All particles have fallen off screen
+          this.canvas.style.display = 'none';
+        }
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+      // Start confetti animation
+      new Confetti();
+      
       // Get buttons
       const reattemptButton = document.querySelector('.primary-button');
       const tryNewButton = document.querySelector('.secondary-button');
@@ -241,14 +350,14 @@
         e.preventDefault();
         // In a real app, this would navigate back to the pose practice page
         console.log('Reattempting pose...');
-        window.location.href = 'pose-practice.html';
+        window.location.href = '/display';
       });
       
       tryNewButton.addEventListener('click', function(e) {
         e.preventDefault();
         // In a real app, this would navigate to the pose library page
         console.log('Selecting a new pose...');
-        window.location.href = 'pose-library.html';
+        window.location.href = '/choose';
       });
     });
   </script>
