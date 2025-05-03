@@ -87,15 +87,13 @@ def pushToCSV(name, anglesDic):
         writer.writerow([name] + listOfAngles)
 
 
-pose_analyzer = poseAnalyzer()
-image_path = "static/posePictures/halfLordOfTheFishes.png"
+# pose_analyzer = poseAnalyzer()
+# image_path = "static/posePictures/halfLordOfTheFishes.png"
 
 
-angles = pose_analyzer.analyzePose(image_path)
+# angles = pose_analyzer.analyzePose(image_path)
 
 
-if angles:
-    pushToCSV(image_path[13:], angles)
-    print("Angles:", angles)
-
-
+# if angles:
+#     pushToCSV(image_path[13:], angles)
+#     print("Angles:", angles)
