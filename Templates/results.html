@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results - YOGAI</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #e6dfd5;
+      color: #57604b;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header styles */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      font-weight: 500;
+      font-size: 1.25rem;
+    }
+
+    .menu-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #57604b;
+    }
+
+    /* Results section styles */
+    .results-section {
+      flex: 1;
+      padding: 2rem 0;
+      position: relative;
+    }
+
+    .results-heading {
+      text-align: center;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      color: #57604b;
+    }
+
+    .results-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 4rem;
+    }
+
+    .blob-background {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 500px;
+      z-index: 0;
+      opacity: 0.9;
+    }
+
+    .accuracy-metrics {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem;
+    }
+
+    .accuracy-item {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .accuracy-value {
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .accuracy-label {
+      font-size: 1.25rem;
+      opacity: 0.9;
+    }
+
+    .center-accuracy {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Buttons container */
+    .buttons-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .action-button {
+      display: block;
+      width: 100%;
+      padding: 1.25rem;
+      border-radius: 9999px;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .primary-button {
+      background-color: #57604b;
+      color: white;
+    }
+
+    .primary-button:hover {
+      background-color: #48503c;
+    }
+
+    .secondary-button {
+      background-color: #c3caba;
+      color: #57604b;
+    }
+
+    .secondary-button:hover {
+      background-color: #b0b9a6;
+    }
+
+    /* Responsive styles */
+    @media (min-width: 768px) {
+      .buttons-container {
+        flex-direction: row;
+      }
+
+      .accuracy-value {
+        font-size: 5rem;
+      }
+
+      .center-accuracy .accuracy-value {
+        font-size: 6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="container">
+    <header>
+      <div class="logo">YOGAI</div>
+      <button class="menu-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+  </div>
+
+  <!-- Results Section -->
+  <section class="results-section">
+    <div class="container">
+      <h1 class="results-heading">RESULTS</h1>
+      
+      <div class="results-container">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Group%2012-3SzLO7bP2Z9i6DQHODiMsGgpP1CP7f.png" alt="Decorative background" class="blob-background">
+        
+        <div class="accuracy-metrics">
+          <div class="accuracy-item">
+            <div class="accuracy-value">69%</div>
+            <div class="accuracy-label">upper accuracy</div>
+          </div>
+          
+          <div class="accuracy-item center-accuracy">
+            <div class="accuracy-value">100%</div>
+            <div class="accuracy-label">overall accuracy</div>
+          </div>
+          
+          <div class="accuracy-item">
+            <div class="accuracy-value">69%</div>
+            <div class="accuracy-label">lower accuracy</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="buttons-container">
+        <a href="#" class="action-button primary-button">reattempt</a>
+        <a href="#" class="action-button secondary-button">try new pose</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get buttons
+      const reattemptButton = document.querySelector('.primary-button');
+      const tryNewButton = document.querySelector('.secondary-button');
+      
+      // Add event listeners
+      reattemptButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        // In a real app, this would navigate back to the pose practice page
+        console.log('Reattempting pose...');
+        window.location.href = 'pose-practice.html';
+      });
+      
+      tryNewButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        // In a real app, this would navigate to the pose library page
+        console.log('Selecting a new pose...');
+        window.location.href = 'pose-library.html';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -431,18 +431,10 @@
       }, 1000);
     }
     
-    // Function to connect to video stream // this is chat dont think we need this either tbh 
-    function connectToVideoStream() {
-      // In a real implementation, this would connect to the Flask backend
-      // For this demo, we'll use a placeholder image
-      videoFeed.src = "https://via.placeholder.com/800x450";
-    }
     
     // initialize the page - i honestly don't know if we need this 
     document.addEventListener('DOMContentLoaded', function() {
-      // Connect to video stream when page loadssssss
-      connectToVideoStream();
-      
+    
       // Start the countdown
       startCountdown(5, () => {
         // After countdown completes start the main timer after a 2 sec delay
@@ -454,7 +446,7 @@
       // Add click event listener to the results button
       resultsButton.addEventListener('click', function() {
         // Navigate to results page
-        window.location.href = 'results.html';
+        window.location.href = '/results';
       });
     });
   </script>

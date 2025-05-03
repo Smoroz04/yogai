@@ -165,5 +165,10 @@ def display():
 def before():
     return render_template('before.html')
 
+@app.route('/results')
+def results():
+    return render_template('results.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
