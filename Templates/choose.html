@@ -135,37 +135,102 @@
       opacity: 0.8;
     }
 
-    /* CTA section styles */
-    .cta-section {
+    /* Upload section */
+    .upload-section {
       background-color: #57604b;
       color: white;
-      padding: 3rem 0;
-      margin-top: 2rem;
+      padding: 4rem 0;
+      margin-top: 3rem;
     }
 
-    .cta-container {
+    .upload-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
+      display: flex;
+      flex-direction: row; /* CHANGE THIS */
+      align-items: center;
+      justify-content: center;
+      gap: 4rem; /* OPTIONAL: adds space between image + text */
     }
 
-    .cta-image {
-      width: 300px;
+    .upload-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* this aligns text + button to the left */
+      text-align: left; /* ensures text is left aligned */
+      max-width: 600px;
+      gap: 1rem; /* adds spacing between text and button nicely */
+    }
+
+    .upload-image-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 2rem;
+      margin: left;
+    }
+
+    .upload-image {
+      width: 100%;
+      height: auto;
+    }
+
+    .upload-intro {
+      font-size: 1.25rem;
       margin-bottom: 0.5rem;
     }
 
-    .cta-text {
-      margin-bottom: 1.5rem;
+    .upload-heading {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      line-height: 1.2;
     }
 
-    .cta-heading {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-top: 0.5rem;
-      line-height: 1.2;
-      text-transform: uppercase;
+    /* Get started button with glow effect */
+    .get-started-container {
+      position: relative;
+      margin-top: 1rem;
     }
+
+    @keyframes glowing {
+      0% {
+        box-shadow: 0 0 5px #57604b, 0 0 10px #57604b, 0 0 15px #57604b;
+        opacity: 0.3;
+      }
+      50% {
+        box-shadow: 0 0 10px #57604b, 0 0 20px #57604b, 0 0 30px #57604b;
+        opacity: 0.6;
+      }
+      100% {
+        box-shadow: 0 0 5px #57604b, 0 0 10px #57604b, 0 0 15px #57604b;
+        opacity: 0.3;
+      }
+    }
+
+    .get-started {
+      background-color: #e6dfd5;
+      color: #57604b;
+      border: none;
+      border-radius: 9999px;
+      padding: 1rem 2rem;
+      font-size: 1.25rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 2;
+      animation: glowing 3s infinite;
+    }
+
+    .get-started:hover {
+      background-color: #d1cabb;
+      transform: translateY(-2px);
+    }
+
+
 
     .button {
 		background-color: #c3caba;
@@ -418,15 +483,18 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="cta-section">
-    <div class="container cta-container">
-      <div class="cta-image">
-        <img src="static/posePictures/LADY POSING .png" >
-	</div>
-      <div class="cta-content">
-        <div class="cta-text">don't know what pose to pick?</div>
-        <h2 class="cta-heading">TAKE A QUIZ TO FIND THE RIGHT POSE FOR YOU</h2>
-		<a href="#" class="button_upload">start quiz</a>
+  <section class="upload-section">
+    <div class="container upload-container">
+      <div class="upload-image-container">
+        <img src="static/posePictures/LADY POSING .png" alt="Yoga pose illustration" class="upload-image">
+      </div>
+      
+      <div class="upload-content">
+        <div class="upload-intro">want to learn a new pose?</div>
+        <h2 class="upload-heading">UPLOAD A NEW POSE TO LEARN WITH</h2>
+        <div class="get-started-container">
+          <a href="/upload" class="get-started">get started</a>
+        </div>
       </div>
     </div>
   </section>
