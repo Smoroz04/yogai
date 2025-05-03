@@ -22,6 +22,9 @@ def save_joint_angles_to_csv(currAngles, filename="joint_angles.csv"):
         writer = csv.writer(file)
         writer.writerow(currAngles)
 
+
+
+
 def generate_frames(poseName):
     camera = cv2.VideoCapture(0)
     detector = poseModule.poseManager()
@@ -48,7 +51,7 @@ def generate_frames(poseName):
         
         height, width, _ = frame.shape
         thickness = 10
-        cv2.rectangle(frame, (0, 0), (width, height), border_colour, thickness)
+        cv2.circle(frame, (100, 100), 60, border_colour, -1)
         
 
         # Stream the frame
