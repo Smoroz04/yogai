@@ -33,7 +33,7 @@ def generate_frames(poseName):
     border_colour = (0, 0, 255)
     clearCSV("joint_angles.csv")
     currColor = "green"
-    countDownDuration = 3
+    countDownDuration = 5 
 
     while True:
         success, frame = camera.read()
@@ -45,18 +45,11 @@ def generate_frames(poseName):
         lmlist = detector.findPosition(frame, draw=False)
         elapsed_time = time.time() - mainTimer
 
-        # Countdown or session timer display
-        elapsed_time_text = (
-            f"Tracking will start in: {3 - elapsed_time:.0f}s"
-            if elapsed_time < countDownDuration
-            else f"Time: {(elapsed_time - countDownDuration):.0f}s"
-        )
-
+        
         height, width, _ = frame.shape
         thickness = 10
         cv2.rectangle(frame, (0, 0), (width, height), border_colour, thickness)
-        cv2.putText(frame, elapsed_time_text, (50, 50), cv2.FONT_HERSHEY_SIMPLEX,
-                    1, (0, 255, 0), 2, cv2.LINE_AA)
+        
 
         # Stream the frame
         ret, buffer = cv2.imencode('.jpg', frame)
@@ -65,7 +58,7 @@ def generate_frames(poseName):
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
         # Pose tracking starts after countdown
-        if countDownDuration < elapsed_time <= 30:
+        if countDownDuration < elapsed_time <= 35:
             currAngles = detector.get_joint_angles(lmlist)
             if currAngles:
                 save_joint_angles_to_csv(currAngles)
@@ -74,7 +67,7 @@ def generate_frames(poseName):
                 quickTimer, currAngles, wantedPose, frameCounter, currColor)
             border_colour = (0, 0, 255) if changeBorder else (0, 255, 0)
 
-        elif elapsed_time > 30:
+        elif elapsed_time > 35:
             break
 
     camera.release()
