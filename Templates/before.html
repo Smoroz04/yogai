@@ -66,13 +66,21 @@
       padding: 2rem 0;
     }
 
+    .pose-header {
+      display: flex;
+    justify-content: center; /* centers horizontally */
+    align-items: center;
+    margin-bottom: 3rem; /* optional spacing to push down from the top */
+}
+
     .pose-title {
-      text-align: center;
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 3rem;
-      color: #57604b;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #57604b;
+    margin: 2rem 0;
     }
+  
 
     .pose-content {
       display: flex;
@@ -176,8 +184,10 @@
 
   <!-- Main Content -->
   <main class="main-content">
-    <div class="container">
+    <div class="pose-header">
       <h1 id="poseTitle"></h1>
+    </div>
+    <div class="container">
       
       <div class="pose-content">
         <div class="pose-info">
@@ -196,8 +206,9 @@
           <img src="https://via.placeholder.com/800x600" alt="Pose">
         </div>
       </div>
-      
-      <a href="#" class="cta-button">get started</a>
+
+      <a href="/display" class="cta-button">get started</a>
+
     </div>
   </main>
 

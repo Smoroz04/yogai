@@ -123,5 +123,9 @@ def display():
 def before():
     return render_template('before.html')
 
+@app.route('/score')
+def score():
+    return render_template('score.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
