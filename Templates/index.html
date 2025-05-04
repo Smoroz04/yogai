@@ -12,6 +12,120 @@
       box-sizing: border-box;
       font-family: Outfit, sans-serif;
     }
+    
+
+
+    /* Sidebar styles */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -320px; /* Start off-screen */
+      width: 320px;
+      height: 100vh;
+      background-color: #57604b;
+      color: #e6dfd5;
+      z-index: 1000;
+      transition: right 0.3s ease;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+    }
+
+    .sidebar.open {
+      right: 0;
+    }
+
+    .sidebar-content {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .sidebar-logo {
+      font-weight: 500;
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(230, 223, 213, 0.2);
+    }
+
+    .sidebar-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: #e6dfd5;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .sidebar-nav {
+      margin-top: 1rem;
+    }
+
+    .sidebar-nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar-nav li {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-nav a {
+      display: block;
+      padding: 0.75rem 0;
+      color: #e6dfd5;
+      text-decoration: none;
+      font-size: 1.25rem;
+      transition: all 0.2s ease;
+      border-radius: 4px;
+    }
+
+    .sidebar-nav a:hover {
+      background-color: rgba(230, 223, 213, 0.1);
+      padding-left: 0.5rem;
+    }
+
+    .sidebar-nav a.active {
+      font-weight: 600;
+      color: #c3caba;
+    }
+
+    /* Overlay styles */
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .sidebar-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Additional styles for mobile */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 280px;
+      }
+    }
+
+
+
+
+
+
+
+
 
     body {
       background-color: #e6dfd5;
@@ -57,6 +171,8 @@
       color: #57604b;
     }
 
+    
+
     /* Hero section styles */
     .hero {
       padding: 3rem 0 5rem;
@@ -89,12 +205,31 @@
            display: inline-block;
        }
 
+       .tech-container {
+           position: relative;
+           display: inline-block;
+       
+       }
+
+       .tech-glow {
+           position: absolute;
+           inset: -5px;
+           border-radius: 9999px;
+           background: linear-gradient(90deg, #aab4ae, #aab4ae, #aab4ae);
+           background-size: 300% 300%;
+           opacity: 1;
+           filter: blur(8px);
+           animation: border-flow 8s ease infinite, glow-pulse 2s ease-in-out infinite;
+           z-index: 1;
+           margin-top: 20px;
+       }
+
 
        .button-glow {
            position: absolute;
            inset: -5px;
            border-radius: 9999px;
-           background: linear-gradient(90deg, #070a09, #aab4ae, #000000);
+           background: linear-gradient(90deg, #000000, #000000, #000000);
            background-size: 300% 300%;
            opacity: 1;
            filter: blur(8px);
@@ -109,6 +244,21 @@
            padding: 16px 32px;
            background-color: #4a5144;
            color: white; 
+           font-size: 24px;
+           border-radius: 9999px;
+           border: none;
+           cursor: pointer;
+           z-index: 2;
+           transition: all 0.3s;
+           margin-top: 20px;
+      
+       }
+
+       .tech {
+           position: relative;
+           padding: 16px 32px;
+           background-color:#e6dfd5 ;
+           color: #68705f; 
            font-size: 24px;
            border-radius: 9999px;
            border: none;
@@ -520,8 +670,13 @@
       <div class="ai-content">
         <p class="label">data-driven</p>
         <h2>AI GUIDING YOU ALONG THE WAY</h2>
-        <p>ai trained on over 2000 yoga poses</p>
-        <a href="#" class="button light">view the tech</a>
+        <p>learn how yogai was created</p>
+
+        <div class="tech-container">
+          <div class="tech-glow"></div>
+          <a href="/tech" class="tech">view the tech</a> 
+      </div>
+
       </div>
     </div>
   </section>
@@ -540,7 +695,7 @@
           
           </div>
           
-          <p>complete pose assessment quiz.</p>
+          <p>choose or upload a pose</p>
         </div>
         
         <!-- Step 2 -->
@@ -548,7 +703,7 @@
           <div class="step-image-container">
             <img src="static/posePictures/step2.png">
           </div>
-          <p>learn the pose and start the pose timer.</p>
+          <p>learn the pose and start the pose timer</p>
         </div>
         
         <!-- Step 3 -->
@@ -556,7 +711,7 @@
           <div class="step-image-container">
             <img src="static/posePictures/step3.png">
           </div>
-          <p>receive marking feedback and reattempt.</p>
+          <p>receive marking feedback and reattempt</p>
         </div>
       </div>
     </div>
@@ -630,7 +785,211 @@
     </div>
   </footer>
   <script>
+    // Function to add sidebar functionality to all pages
+    function addSidebarToPage() {
+      // Create style element for sidebar CSS
+      const style = document.createElement('style');
+      style.textContent = `
+      /* Sidebar styles */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        right: -320px; /* Start off-screen */
+        width: 320px;
+        height: 100vh;
+        background-color: #57604b;
+        color: #e6dfd5;
+        z-index: 1000;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+      }
+
+      .sidebar.open {
+        right: 0;
+      }
+
+      .sidebar-content {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .sidebar-logo {
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(230, 223, 213, 0.2);
+      }
+
+      .sidebar-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        color: #e6dfd5;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+
+      .sidebar-nav {
+        margin-top: 1rem;
+      }
+
+      .sidebar-nav ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .sidebar-nav li {
+        margin-bottom: 1rem;
+      }
+
+      .sidebar-nav a {
+        display: block;
+        padding: 0.75rem 0;
+        color: #e6dfd5;
+        text-decoration: none;
+        font-size: 1.25rem;
+        transition: all 0.2s ease;
+        border-radius: 4px;
+      }
+
+      .sidebar-nav a:hover {
+        background-color: rgba(230, 223, 213, 0.1);
+        padding-left: 0.5rem;
+      }
+
+      .sidebar-nav a.active {
+        font-weight: 600;
+        color: #c3caba;
+      }
+
+      /* Overlay styles */
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Additional styles for mobile */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 280px;
+        }
+      }
+      `;
+      
+      // Add the style to the head
+      document.head.appendChild(style);
+      
+      // Create the sidebar element
+      const sidebar = document.createElement('div');
+      sidebar.className = 'sidebar';
+      
+      const sidebarContent = document.createElement('div');
+      sidebarContent.className = 'sidebar-content';
+      
+      const closeButton = document.createElement('button');
+      closeButton.className = 'sidebar-close';
+      closeButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      `;
+      
+      const sidebarLogo = document.createElement('div');
+      sidebarLogo.className = 'sidebar-logo';
+      sidebarLogo.textContent = 'YOGAI';
+      
+      const navLinks = document.createElement('nav');
+      navLinks.className = 'sidebar-nav';
+      
+      // Define the navigation links
+      const links = [
+        { name: 'Home', url: '/index' },
+        { name: 'Pose Library', url: '/choose' },
+        { name: 'Behind the Tech', url: '/tech' },
+        { name: 'Upload Pose', url: '/upload' },
+       
+      ];
+      
+      // Create the navigation list
+      const navList = document.createElement('ul');
+      links.forEach(link => {
+        const listItem = document.createElement('li');
+        const anchor = document.createElement('a');
+        anchor.href = link.url;
+        anchor.textContent = link.name;
         
+        // Highlight the current page
+        if (window.location.pathname.includes(link.url.substring(1))) {
+          anchor.className = 'active';
+        }
+        
+        listItem.appendChild(anchor);
+        navList.appendChild(listItem);
+      });
+      
+      navLinks.appendChild(navList);
+      
+      // Assemble the sidebar
+      sidebarContent.appendChild(closeButton);
+      sidebarContent.appendChild(sidebarLogo);
+      sidebarContent.appendChild(navLinks);
+      sidebar.appendChild(sidebarContent);
+      
+      // Add overlay for closing the sidebar when clicking outside
+      const overlay = document.createElement('div');
+      overlay.className = 'sidebar-overlay';
+      
+      // Add sidebar and overlay to the body
+      document.body.appendChild(sidebar);
+      document.body.appendChild(overlay);
+      
+      // Add event listeners
+      const menuButton = document.querySelector('.menu-button');
+      
+      if (menuButton) {
+        menuButton.addEventListener('click', function() {
+          sidebar.classList.add('open');
+          overlay.classList.add('active');
+          document.body.style.overflow = 'hidden'; // Prevent scrolling when sidebar is open
+        });
+      }
+      
+      closeButton.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; // Re-enable scrolling
+      });
+      
+      overlay.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; // Re-enable scrolling
+      });
+    }
+
+    // Add the sidebar when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', addSidebarToPage);
+    
 
 </script>
 </body>

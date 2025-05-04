@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Behind the Tech - YOGAI</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #e6dfd5;
+      color: #57604b;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header styles - Updated to green */
+    .header-wrapper {
+      background-color: #57604b;
+      color: #e6dfd5;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      font-weight: 500;
+      font-size: 1.25rem;
+      color: #e6dfd5;
+    }
+
+    .menu-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #e6dfd5;
+    }
+
+    /* Hero section styles */
+    .hero {
+      background-color: #57604b;
+      color: #e6dfd5;
+      padding: 20rem 0; /* increase padding so the hero takes up more space */
+      position: relative;
+      text-align: center; /* center content horizontally */
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 1300px;
+      z-index: 1;
+    }
+
+    /* Section styles */
+    .tech-section {
+      padding: 5rem 0;
+      position: relative;
+    }
+
+    /* Alternating section colors */
+    .tech-section.green {
+      background-color: #57604b;
+      color: #e6dfd5;
+    }
+
+    .tech-section.beige {
+      background-color: #e6dfd5;
+      color: #57604b;
+    }
+
+    .section-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .section-text {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin-bottom: 1rem;
+    }
+
+    .section-image {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* Footer styles - Updated to green */
+    .footer-wrapper {
+      background-color: #57604b;
+      color: #e6dfd5;
+      border-top: 1px solid rgba(230, 223, 213, 0.2);
+    }
+
+    footer {
+      padding: 3rem 0;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-weight: 500;
+      font-size: 1.25rem;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 4rem;
+    }
+
+    .footer-column h3 {
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Animation styles */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.appear {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger-item {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .stagger-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .stagger-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .stagger-delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    .stagger-delay-4 {
+      transition-delay: 0.4s;
+    }
+
+    .stagger-item.appear {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide-in-left {
+      opacity: 0;
+      transform: translateX(-100px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .slide-in-left.appear {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .slide-in-right {
+      opacity: 0;
+      transform: translateX(100px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .slide-in-right.appear {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .pop-in {
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .pop-in.appear {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Responsive styles */
+    @media (min-width: 768px) {
+      .section-content {
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .section-content.reverse {
+        flex-direction: row-reverse;
+      }
+
+      .section-text-container {
+        flex: 1;
+      }
+
+      .section-image-container {
+        flex: 1;
+      }
+
+      .hero-title {
+        font-size: 7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header - Now with green background -->
+  <div class="header-wrapper">
+    <div class="container">
+      <header>
+        <a href="/index" class="logo">YOGAI</a>
+        <button class="menu-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="12" y2="12"></line>
+            <line x1="4" x2="20" y1="6" y2="6"></line>
+            <line x1="4" x2="20" y1="18" y2="18"></line>
+          </svg>
+        </button>
+      </header>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-image">
+        <img src="static/posePictures/behindTheTech.png" alt="Yoga pose illustration" class="pop-in">
+      </div>
+    </div>
+  </section>
+
+  <!-- MediaPipe Section -->
+  <section class="tech-section beige">
+    <div class="container">
+      <div class="section-content">
+        <div class="section-text-container">
+          <h2 class="section-title fade-in">MEDIAPIPE</h2>
+          <p class="section-text fade-in">
+            At the core of the experience is AI-driven computer vision. Our system uses Google's 
+            Mediapipe library, a cutting-edge computer vision tool, to detect human body 
+            landmarks in real-time. When a user performs a pose, Mediapipe identifies key 
+            points such as shoulders, elbows, hips, and knees, and returns their coordinates. This 
+            creates a digital representation of the user's body, allowing for precise tracking 
+            and analysis of movement.
+          </p>
+        </div>
+        <div class="section-image-container">
+          <div class="section-image slide-in-right">
+            <img src="static/posePictures/mediaPipe.png" alt="MediaPipe body tracking">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pose Analysis Section -->
+  <section class="tech-section green">
+    <div class="container">
+      <div class="section-content reverse">
+        <div class="section-text-container">
+          <h2 class="section-title fade-in">POSE ANALYSIS</h2>
+          <p class="section-text fade-in">
+            Once the landmarks are detected, the Pose Analyzer takes over. It calculates angles 
+            between specific joints using simple math and trigonometry. These angles are 
+            essential for assessing how closely the user's pose matches the correct form, 
+            offering clear and objective feedback on posture and alignment.
+          </p>
+        </div>
+        <div class="section-image-container">
+          <div class="section-image slide-in-left">
+            <img src="static/posePictures/PA.png" alt="Pose analysis visualization">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scoring Section -->
+  <section class="tech-section beige">
+    <div class="container">
+      <div class="section-content">
+        <div class="section-text-container">
+          <h2 class="section-title fade-in">SCORING</h2>
+          <p class="section-text fade-in">
+            By comparing the calculated joint angles to reference poses, the system generates a 
+            personalized accuracy score. This score helps users immediately understand how 
+            well they performed the pose and highlights where adjustments might be needed. The 
+            result is a seamless AI-powered experience that guides users towards better, safer 
+            form every time they practice.
+          </p>
+        </div>
+        <div class="section-image-container">
+          <div class="section-image slide-in-right">
+            <img src="static/posePictures/scoring.png" alt="Scoring visualization">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer - Now with green background -->
+  <div class="footer-wrapper">
+    <div class="container">
+      <footer>
+        <div class="footer-container">
+          <div class="footer-left">
+            <div class="footer-logo">YOGAI</div>
+            <div class="social-icons">
+              <!-- Twitter Icon -->
+              <a href="#" class="social-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+                </svg>
+              </a>
+              <!-- Instagram Icon -->
+              <a href="#" class="social-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                </svg>
+              </a>
+              <!-- YouTube Icon -->
+              <a href="#" class="social-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
+                  <path d="m10 15 5-3-5-3z"></path>
+                </svg>
+              </a>
+              <!-- LinkedIn Icon -->
+              <a href="#" class="social-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                  <rect width="4" height="12" x="2" y="9"></rect>
+                  <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="footer-links">
+            <div class="footer-column">
+              <h3>Explore</h3>
+              <ul>
+                <li><a href="#">Design</a></li>
+                <li><a href="#">Prototyping</a></li>
+                <li><a href="#">Development features</a></li>
+                <li><a href="#">Design systems</a></li>
+                <li><a href="#">Collaboration features</a></li>
+                <li><a href="#">Design process</a></li>
+                <li><a href="#">FigJam</a></li>
+              </ul>
+            </div>
+            
+            <div class="footer-column">
+              <h3>Use cases</h3>
+              <ul>
+                <li><a href="#">UI design</a></li>
+                <li><a href="#">UX design</a></li>
+                <li><a href="#">Wireframing</a></li>
+                <li><a href="#">Diagramming</a></li>
+                <li><a href="#">Brainstorming</a></li>
+                <li><a href="#">Online whiteboard</a></li>
+                <li><a href="#">Team collaboration</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Immediately show the hero section elements
+      setTimeout(() => {
+        document.querySelectorAll('.hero .stagger-item').forEach(item => {
+          item.classList.add('appear');
+        });
+        
+        document.querySelector('.hero-image .pop-in').classList.add('appear');
+      }, 300);
+      
+      // Set up Intersection Observer for scroll animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('appear');
+            observer.unobserve(entry.target); // Stop observing once animation is triggered
+          }
+        });
+      }, {
+        root: null, // Use viewport as root
+        threshold: 0.1, // Trigger when 10% of the element is visible
+        rootMargin: '-50px' // Trigger a bit before the element enters the viewport
+      });
+      
+      // Observe all elements with animation classes
+      document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .pop-in').forEach(element => {
+        if (!element.closest('.hero')) { // Skip hero section elements as they're handled separately
+          observer.observe(element);
+        }
+      });
+    });
+
+
+
+    // Function to add sidebar functionality to all pages
+    function addSidebarToPage() {
+      // Create style element for sidebar CSS
+      const style = document.createElement('style');
+      style.textContent = `
+      /* Sidebar styles */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        right: -320px; /* Start off-screen */
+        width: 320px;
+        height: 100vh;
+        background-color: #57604b;
+        color: #e6dfd5;
+        z-index: 1000;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+      }
+
+      .sidebar.open {
+        right: 0;
+      }
+
+      .sidebar-content {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .sidebar-logo {
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(230, 223, 213, 0.2);
+      }
+
+      .sidebar-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        color: #e6dfd5;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+
+      .sidebar-nav {
+        margin-top: 1rem;
+      }
+
+      .sidebar-nav ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .sidebar-nav li {
+        margin-bottom: 1rem;
+      }
+
+      .sidebar-nav a {
+        display: block;
+        padding: 0.75rem 0;
+        color: #e6dfd5;
+        text-decoration: none;
+        font-size: 1.25rem;
+        transition: all 0.2s ease;
+        border-radius: 4px;
+      }
+
+      .sidebar-nav a:hover {
+        background-color: rgba(230, 223, 213, 0.1);
+        padding-left: 0.5rem;
+      }
+
+      .sidebar-nav a.active {
+        font-weight: 600;
+        color: #c3caba;
+      }
+
+      /* Overlay styles */
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Additional styles for mobile */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 280px;
+        }
+      }
+      `;
+      
+      // Add the style to the head
+      document.head.appendChild(style);
+      
+      // Create the sidebar element
+      const sidebar = document.createElement('div');
+      sidebar.className = 'sidebar';
+      
+      const sidebarContent = document.createElement('div');
+      sidebarContent.className = 'sidebar-content';
+      
+      const closeButton = document.createElement('button');
+      closeButton.className = 'sidebar-close';
+      closeButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      `;
+      
+      const sidebarLogo = document.createElement('div');
+      sidebarLogo.className = 'sidebar-logo';
+      sidebarLogo.textContent = 'YOGAI';
+      
+      const navLinks = document.createElement('nav');
+      navLinks.className = 'sidebar-nav';
+      
+      // Define the navigation links
+      const links = [
+        { name: 'Home', url: '/index' },
+        { name: 'Pose Library', url: '/choose' },
+        { name: 'Behind the Tech', url: '/tech' },
+        { name: 'Upload Pose', url: '/upload' },
+
+      ];
+      
+      // Create the navigation list
+      const navList = document.createElement('ul');
+      links.forEach(link => {
+        const listItem = document.createElement('li');
+        const anchor = document.createElement('a');
+        anchor.href = link.url;
+        anchor.textContent = link.name;
+        
+        // Highlight the current page
+        if (window.location.pathname.includes(link.url.substring(1))) {
+          anchor.className = 'active';
+        }
+        
+        listItem.appendChild(anchor);
+        navList.appendChild(listItem);
+      });
+      
+      navLinks.appendChild(navList);
+      
+      // Assemble the sidebar
+      sidebarContent.appendChild(closeButton);
+      sidebarContent.appendChild(sidebarLogo);
+      sidebarContent.appendChild(navLinks);
+      sidebar.appendChild(sidebarContent);
+      
+      // Add overlay for closing the sidebar when clicking outside
+      const overlay = document.createElement('div');
+      overlay.className = 'sidebar-overlay';
+      
+      // Add sidebar and overlay to the body
+      document.body.appendChild(sidebar);
+      document.body.appendChild(overlay);
+      
+      // Add event listeners
+      const menuButton = document.querySelector('.menu-button');
+      
+      if (menuButton) {
+        menuButton.addEventListener('click', function() {
+          sidebar.classList.add('open');
+          overlay.classList.add('active');
+          document.body.style.overflow = 'hidden'; // Prevent scrolling when sidebar is open
+        });
+      }
+      
+      closeButton.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; // Re-enable scrolling
+      });
+      
+      overlay.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; // Re-enable scrolling
+      });
+    }
+
+    // Add the sidebar when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', addSidebarToPage);
+  </script>
+</body>
+</html>
