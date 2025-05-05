@@ -162,7 +162,7 @@ def returnResults(poseName):
         print("Error: No recorded attempts found.")
         return
     
-    percentageAccuracy = DataAnalysis.calculatePercentage(calculate_accuracy(attempts,reference_pose,10))
+    percentageAccuracy = DataAnalysis.calculatePercentage(DataAnalysis.calculate_accuracy(attempts,reference_pose,10))
     print("This is the accuracy i hope it works! ", percentageAccuracy)
 
     body = body_accuracy(attempts, reference_pose,10)
