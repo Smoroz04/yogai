@@ -239,10 +239,63 @@ const poseImages = {
     "dancerPose.png": "{{ url_for('static', filename='posePictures/dancerPose.png') }}",
     "revolvedTrianglePose.png": "{{ url_for('static', filename='posePictures/revolvedTrianglePose.png') }}",
     "childPose.png": "{{ url_for('static', filename='posePictures/childPose.png') }}",
-    "chairPose.png": "{{ url_for('static', filename='posePictures/chairPose.png') }}"
+    "chairPose.png": "{{ url_for('static', filename='posePictures/chairPose.png') }}",
+    "utthita-hasta-padasana.png": "{{ url_for('static', filename='posePictures/UtthitaHasta Padasana.png') }}"
 };
 
 document.querySelector(".pose-image img").src = poseImages[selectedPose];
+
+// Pose data mapping
+const poseDescriptions = {
+  "WarriorPose.png": {
+    about: "Warrior II is a strong standing pose rooted in mythology. It builds presence, balance, and inner strength by engaging the legs and core while the arms extend in fierce focus.",
+    benefits: "Improves stamina and balance, strengthens legs and shoulders, and opens the hips. Boosts confidence and body awareness."
+  },
+  "mountainPose.png": {
+    about: "Mountain Pose appears simple, but it’s the foundation for all standing poses. It aligns the body and centers the mind through quiet strength.",
+    benefits: "Improves posture, grounds the body, and enhances awareness and focus. Great for breath alignment and stability."
+  },
+  "utthita-hasta-padasana.png": {
+    about: "A preparatory stance for wide-legged poses. It teaches expansion and symmetry by stretching the limbs outward with strong grounding.",
+    benefits: "Enhances alignment, stretches legs and arms, and improves overall posture and balance."
+  },
+  "boatPose.png": {
+    about: "Boat Pose is a core-intensive balance posture that lifts the body into a V-shape, strengthening the center while improving focus.",
+    benefits: "Tones abdominal muscles, improves balance, and builds deep core strength. Supports digestion and posture."
+  },
+  "halfLordOfTheFishes.png": {
+    about: "A deep seated twist that promotes detox and spinal flexibility. It channels introspection and revitalization through mindful rotation.",
+    benefits: "Stimulates digestion, enhances spinal mobility, and relieves lower back tension."
+  },
+  "dancerPose.png": {
+    about: "Dancer Pose is a beautiful balance between strength and grace. With one leg lifted and arms stretched, it embodies elegance in motion.",
+    benefits: "Improves balance and coordination, strengthens legs and spine, opens chest and shoulders."
+  },
+  "revolvedTrianglePose.png": {
+    about: "This twisting pose merges stability with rotation, helping detoxify and energize the body while demanding focus and breath control.",
+    benefits: "Builds strength in legs and core, increases spinal flexibility, and aids digestion through twisting."
+  },
+  "childPose.png": {
+    about: "Child’s Pose is a gentle resting posture that allows the body to surrender and reset. It encourages stillness and introspection.",
+    benefits: "Relieves back, shoulder, and neck tension. Calms the nervous system and promotes emotional grounding."
+  },
+  "chairPose.png": {
+    about: "Chair Pose simulates sitting on an invisible chair, activating multiple muscle groups. It’s a heat-building, empowering asana.",
+    benefits: "Tones thighs, glutes, and core. Builds stamina and improves posture and focus through disciplined breath."
+  }
+};
+
+// Fill in the about and benefits based on selected pose
+const aboutText = document.querySelectorAll('.info-text')[0];
+const benefitsText = document.querySelectorAll('.info-text')[1];
+
+if (poseDescriptions[selectedPose]) {
+  aboutText.textContent = poseDescriptions[selectedPose].about;
+  benefitsText.textContent = poseDescriptions[selectedPose].benefits;
+} else {
+  aboutText.textContent = "Details coming soon.";
+  benefitsText.textContent = "Benefits coming soon.";
+}
 
 </script>
 
