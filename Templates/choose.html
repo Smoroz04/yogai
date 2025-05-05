@@ -189,6 +189,46 @@
       line-height: 1.2;
     }
 
+    .tech-container {
+           position: relative;
+           display: inline-block;
+       
+       }
+
+       .tech-glow {
+           position: absolute;
+           inset: -5px;
+           border-radius: 9999px;
+           background: linear-gradient(90deg, #aab4ae, #aab4ae, #aab4ae);
+           background-size: 300% 300%;
+           opacity: 1;
+           filter: blur(8px);
+           animation: border-flow 8s ease infinite, glow-pulse 2s ease-in-out infinite;
+           z-index: 1;
+           margin-top: 20px;
+       }
+
+       .tech {
+           position: relative;
+           padding: 16px 32px;
+           background-color:#e6dfd5 ;
+           color: #68705f; 
+           font-size: 24px;
+           border-radius: 9999px;
+           border: none;
+           cursor: pointer;
+           z-index: 2;
+           transition: all 0.3s;
+           margin-top: 20px;
+      
+       }
+
+
+
+
+
+
+    
     /* Get started button with glow effect */
     .get-started-container {
       position: relative;
@@ -365,6 +405,18 @@
       }
     }
 
+
+
+    @keyframes glow-pulse {
+           0%, 100% {
+               inset: -2px;
+               filter: blur(10px);
+           }
+           50% {
+               inset: -3.5px;
+               filter: blur(30px);
+           }
+       }
     @media (min-width: 1024px) {
       .pose-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -425,6 +477,39 @@
   <section>
     <div class="container">
       <div class="pose-grid">
+        
+        <!-- Pose  -->
+        <div class="pose-card">
+          <div class="pose-image" >
+			<button class="button" id="one" onclick="selectPose('WarriorPose.png')">
+            <img src="static/posePictures/warrior.png" >
+			</button>
+          </div>
+        </div>
+
+
+        <!-- Pose  -->
+        <div class="pose-card">
+          <div class="pose-image" >
+			<button class="button" id="one" onclick="selectPose('mountainPose.png')">
+            <img src="static/posePictures/MOUNTAIN.png" >
+			</button>
+          </div>
+        </div>
+
+         <!-- Pose  -->
+         <div class="pose-card">
+          <div class="pose-image" >
+			<button class="button" id="one" onclick="selectPose('utthita-hasta-padasana.png')">
+            <img src="static/posePictures/UtthitaHasta Padasana.png" >
+			</button>
+          </div>
+        </div>
+
+
+        
+        
+        
         <!-- Pose 1 -->
         <div class="pose-card">
           <div class="pose-image" >
@@ -491,10 +576,14 @@
       
       <div class="upload-content">
         <div class="upload-intro">want to learn a new pose?</div>
-        <h2 class="upload-heading">UPLOAD A NEW POSE TO LEARN WITH</h2>
-        <div class="get-started-container">
-          <a href="/upload" class="get-started">get started</a>
-        </div>
+        <h2 class="upload-heading">UPLOAD A NEW POSE TO LEARN</h2>
+        
+        <div class="tech-container">
+          <div class="tech-glow"></div>
+          <a href="/upload" class="tech">get started</a>
+      </div>
+
+
       </div>
     </div>
   </section>
