@@ -165,7 +165,7 @@ def returnResults(poseName):
     percentageAccuracy = DataAnalysis.calculatePercentage(DataAnalysis.calculate_accuracy(attempts,reference_pose,10))
     print("This is the accuracy i hope it works! ", percentageAccuracy)
 
-    body = body_accuracy(attempts, reference_pose,10)
+    body = DataAnalysis.body_accuracy(attempts, reference_pose,10)
     print("This is the body accuracy: ", body)
     newArray = [percentageAccuracy, body[0],body[1]]
     return newArray
