@@ -62,24 +62,3 @@ def calculatePercentage(accuracyScoreArray):
             counter += 1
     percentageAccuracy = (counter/ len(accuracyScoreArray)) * 100
     return percentageAccuracy
-
-def main():
-    pose_name = "mountainPose.png"  # Change to the relevant pose name
-    reference_pose = load_reference_pose(pose_name)
-    
-    if reference_pose is None:
-        print(f"Error: Reference pose '{pose_name}' not found.")
-        return
-    
-    attempts = load_attempts()
-    if not attempts:
-        print("Error: No recorded attempts found.")
-        return
-    
-    percentageAccuracy = calculatePercentage(calculate_accuracy(attempts,reference_pose,10))
-    print("This is the accuracy i hope it works! ", percentageAccuracy)
-
-    body = body_accuracy(attempts, reference_pose,10)
-    print("This is the body accuracy: ", body)
-
-main()
