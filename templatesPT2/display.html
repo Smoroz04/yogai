@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dancer Pose Practice - YOGAI</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #e6dfd5;
+      color: #57604b;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header styles */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      font-weight: 500;
+      font-size: 1.25rem;
+    }
+
+    .menu-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #57604b;
+    }
+
+    /* Main content styles */
+    .main-content {
+      flex: 1;
+      padding: 1rem 0;
+    }
+
+    .poseTitle {
+	 text-align: center;
+     font-size: 2.5rem;
+     font-weight: 700;
+     margin-bottom: 2rem;
+     color: #57604b;
+
+    }
+
+    /* Video feed styles */
+    .video-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border-radius: 2rem;
+      overflow: hidden;
+      background-color: #e0e0e0;
+      position: relative;
+      aspect-ratio: 16/9;
+    }
+
+    #videoStream {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Countdown overlay styles */
+    .countdown-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(87, 96, 75, 0.85);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      z-index: 10;
+      border-radius: 2rem;
+    }
+
+    .countdown-number {
+      font-size: 8rem;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .countdown-text {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+
+    /* Countdown animation */
+    @keyframes countdownPulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.8; }
+    }
+
+    .animate-countdown {
+      animation: countdownPulse 0.9s ease-in-out;
+    }
+
+    /* Reference image and timer container */
+    .controls-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .reference-image {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 1.5rem;
+      overflow: hidden;
+    }
+
+    .timer-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .timer-label {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #57604b;
+    }
+
+    .timer-display {
+      background-color: #57604b;
+      color: white;
+      padding: 0.75rem 2rem;
+      border-radius: 9999px;
+      font-size: 1.5rem;
+      font-weight: 500;
+      min-width: 200px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    /* Timer completion animation */
+    @keyframes timerComplete {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); background-color: #a2ab9a; }
+      100% { transform: scale(1); }
+    }
+
+    .timer-complete {
+      animation: timerComplete 1s ease-in-out;
+    }
+
+    /* Results button styles */
+    .results-button-container {
+      text-align: center;
+      margin-top: 2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .results-button-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+	.pose-header {
+      display: flex;
+    justify-content: center; /* centers horizontally */
+    align-items: center;
+    margin-bottom: 3rem; /* optional spacing to push down from the top */
+}
+    .results-button {
+      background-color: #57604b;
+      color: white;
+      padding: 1rem 2.5rem;
+      border-radius: 9999px;
+      font-size: 1.25rem;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .results-button:hover {
+      background-color: #48503c;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Results button animation */
+    @keyframes buttonPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .animate-button {
+      animation: buttonPulse 1.5s ease-in-out infinite;
+    }
+
+    /* Responsive styles */
+    @media (min-width: 768px) {
+      .controls-container {
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .reference-image {
+        max-width: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="container">
+    <header>
+		<a href="/index" class="logo">YOGAI</a>
+
+      <button class="menu-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+	<div class="pose-header">
+		<h1 id="poseTitle"></h1>
+	 </div>
+    <div class="container">
+      
+      <!-- Video Feed Container -->
+      <div class="video-container">
+        <img id="videoStream" src="https://via.placeholder.com/800x450" alt="Live video feed">
+        
+        <!-- Countdown Overlay -->
+        <div id="countdown-overlay" class="countdown-overlay">
+          <div id="countdown-number" class="countdown-number">5</div>
+          <div class="countdown-text">Get ready to start</div>
+        </div>
+      </div>
+      
+      <!-- Reference Image and Timer -->
+      <div class="controls-container">
+        <div class="reference-image">
+          <img src="https://via.placeholder.com/300x300" >
+        </div>
+        
+        <div class="timer-container">
+          <div class="timer-label">TIMER</div>
+          <div class="timer-display" id="timer">00:00</div>
+        </div>
+      </div>
+      
+      <!-- Results Button (initially hidden) -->
+      <div id="results-button-container" class="results-button-container">
+        <button id="results-button" class="results-button animate-button">See Your Results</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // DOM elements
+    
+	//Video Stream 
+	const selectedPose = localStorage.getItem("selectedPose");
+	const videoFeed = document.getElementById("videoStream").src = `/video?pose=${selectedPose}`;
+
+	// Name Update for title 
+	const poseTitle = document.getElementById("poseTitle");
+   const poseName = selectedPose ? selectedPose.replace(/\.png$/, '').replace(/([A-Z])/g, ' $1').trim() : "Pose";
+   poseTitle.textContent = poseName.toUpperCase();
+
+
+   // pose image update
+
+   // Update reference image
+   const referenceImage = document.querySelector(".reference-image img");
+   if (selectedPose) {
+       referenceImage.src = "static/posePictures/" + selectedPose;
+   }
+
+
+    const timerDisplay = document.getElementById('timer');
+    const countdownOverlay = document.getElementById('countdown-overlay');
+    const countdownNumber = document.getElementById('countdown-number');
+    const resultsButtonContainer = document.getElementById('results-button-container');
+    const resultsButton = document.getElementById('results-button');
+    
+    // Timer variables
+    let timerInterval;
+    let elapsedTime = 0;
+    const MAX_TIME = 30; // Maximum time in seconds
+    
+    // Function to format time as MM:SS
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return `${mins}:${secs}`;
+    }
+    
+    // Function to update timer display
+    function updateTimer() {
+      elapsedTime += 1;
+      timerDisplay.textContent = formatTime(elapsedTime);
+      
+      // Check if timer has reached maximum time
+      if (elapsedTime >= MAX_TIME) {
+        stopTimer();
+        timerComplete();
+      }
+    }
+    
+    // Function to start the timer
+    function startTimer() {
+      if (!timerInterval) {
+        timerInterval = setInterval(updateTimer, 1000);
+      }
+    }
+    
+    // Function to stop the timer
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+    
+    // Function to reset the timer
+    function resetTimer() {
+      stopTimer();
+      elapsedTime = 0;
+      timerDisplay.textContent = formatTime(elapsedTime);
+      timerDisplay.classList.remove('timer-complete');
+    }
+    
+    // Function to handle timer completion animation
+    function timerComplete() {
+      timerDisplay.classList.add('timer-complete');
+      
+      //  the results button with animation
+      setTimeout(() => {
+        resultsButtonContainer.classList.add('visible');
+      }, 1000);
+      
+      // Optional: Play a sound or show a message
+      console.log("Timer complete!");
+    }
+    
+    // Function to run the countdown animation
+    function startCountdown(seconds, callback) {
+      let count = seconds;
+      
+      // Update the countdown number
+      countdownNumber.textContent = count;
+      
+      // Start the countdown interval
+      const countdownInterval = setInterval(() => {
+        count--;
+        
+        if (count > 0) {
+          //  animation class
+          countdownNumber.classList.add('animate-countdown');
+          
+          // Update the number after a small delay to allow animation to start
+          setTimeout(() => {
+            countdownNumber.textContent = count;
+          }, 100);
+          
+          // get rid of animation class after animation completes hoping this works 
+          setTimeout(() => {
+            countdownNumber.classList.remove('animate-countdown');
+          }, 900);
+        } else {
+          // countdown complete 
+          clearInterval(countdownInterval);
+          
+          //  the countdown overlay is hidden 
+          countdownOverlay.style.opacity = '0';
+          setTimeout(() => {
+            countdownOverlay.style.display = 'none';
+            
+            //  callback  - do we need rthis 
+            if (callback && typeof callback === 'function') {
+              callback();
+            }
+          }, 500);
+        }
+      }, 1000);
+    }
+    
+    
+    // initialize the page - i honestly don't know if we need this 
+    document.addEventListener('DOMContentLoaded', function() {
+    
+      // Start the countdown
+      startCountdown(5, () => {
+        // After countdown completes start the main timer after a 2 sec delay
+        setTimeout(() => {
+          startTimer();
+        },);
+      });
+      
+      // Add click event listener to the results button
+      resultsButton.addEventListener('click', function() {
+        // Navigate to results page
+        window.location.href = '/results';
+      });
+    });
+  </script>
+</body>
+</html>
