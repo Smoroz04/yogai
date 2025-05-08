@@ -14,7 +14,7 @@ import atexit
 latest_uploaded_pose = None  
 
 
-app = Flask(__name__)
+app = Flask(name, template_folder='Templates')
 pose_analyzer = poseAnalyzer()
 
 def save_joint_angles_to_csv(currAngles, filename="joint_angles.csv"):
