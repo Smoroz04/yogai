@@ -170,6 +170,7 @@ def returnResults(poseName):
     newArray = [percentageAccuracy, body[0],body[1]]
     return newArray
 
+@app.route('/')
 @app.route('/index')
 def start():
     return render_template('index.html')
