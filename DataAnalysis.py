@@ -33,25 +33,26 @@ def calculate_accuracy(attempts, reference_pose, threshold):
     return accuracy_scores
 
 def body_accuracy(attempts, reference_pose, threshold):
-    
     accuracy_upper = []
     accuracy_lower = []
-    threshold = 10  # Acceptable angle deviation in degrees
-    
+
     for attempt in attempts:
-        if (abs(attempt[0] - reference_pose[0]) >= threshold) or abs(attempt[1] - reference_pose[1]) >= threshold or (abs(attempt[4])- reference_pose[4] >= threshold) or (abs(attempt[5] - reference_pose[5]) >= threshold): 
-            accuracy_upper.append(0)
-        else:
+        # Upper: elbows and shoulders
+        if all(abs(attempt[i] - reference_pose[i]) < threshold for i in [0, 1, 4, 5]):
             accuracy_upper.append(1)
-        
-        if (abs(attempt[2] - reference_pose[2]) >= threshold) or abs(attempt[3] - reference_pose[3]) >= threshold or abs(attempt[4] - reference_pose[4]) >= threshold or abs(attempt[5] - reference_pose[5]) >= threshold :
-            accuracy_lower.append(0)
-        else: 
+        else:
+            accuracy_upper.append(0)
+
+        # Lower: knees
+        if all(abs(attempt[i] - reference_pose[i]) < threshold for i in [2, 3]):
             accuracy_lower.append(1)
+        else:
+            accuracy_lower.append(0)
+
     lowerBodyScore = calculatePercentage(accuracy_lower)
     upperBodyScore = calculatePercentage(accuracy_upper)
-    body = [lowerBodyScore, upperBodyScore]
-    return body
+    return [lowerBodyScore, upperBodyScore]
+
 
 
 

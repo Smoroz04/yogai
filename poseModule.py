@@ -59,15 +59,14 @@ class poseManager():
             return []
 
         return [
-            self.calculateAngle(self.get_point(11, lmlist), self.get_point(13, lmlist), self.get_point(15, lmlist)),  # leftElbowAngle
-            self.calculateAngle(self.get_point(12, lmlist), self.get_point(14, lmlist), self.get_point(16, lmlist)),  # rightElbowAngle
-            self.calculateAngle(self.get_point(23, lmlist), self.get_point(25, lmlist), self.get_point(27, lmlist)),  # leftKneeAngle
-            self.calculateAngle(self.get_point(24, lmlist), self.get_point(26, lmlist), self.get_point(28, lmlist)),  # rightKneeAngle
-            self.calculateAngle(self.get_point(13, lmlist), self.get_point(11, lmlist), self.get_point(23, lmlist)),  # leftShoulderAngle
-            self.calculateAngle(self.get_point(14, lmlist), self.get_point(12, lmlist), self.get_point(24, lmlist)),  # rightShoulderAngle
-            self.calculateAngle(self.get_point(11, lmlist), self.get_point(23, lmlist), self.get_point(25, lmlist)),  # leftHipAngle
-            self.calculateAngle(self.get_point(12, lmlist), self.get_point(24, lmlist), self.get_point(26, lmlist)),  # rightHipAngle
+            self.calculateAngle(self.get_point(11, lmlist), self.get_point(13, lmlist), self.get_point(15, lmlist)),  # left elbow
+            self.calculateAngle(self.get_point(12, lmlist), self.get_point(14, lmlist), self.get_point(16, lmlist)),  # right elbow
+            self.calculateAngle(self.get_point(23, lmlist), self.get_point(25, lmlist), self.get_point(27, lmlist)),  # left knee
+            self.calculateAngle(self.get_point(24, lmlist), self.get_point(26, lmlist), self.get_point(28, lmlist)),  # right knee
+            self.calculateAngle(self.get_point(13, lmlist), self.get_point(11, lmlist), self.get_point(23, lmlist)),  # left shoulder
+            self.calculateAngle(self.get_point(14, lmlist), self.get_point(12, lmlist), self.get_point(24, lmlist))   # right shoulder
         ]
+
 
     def get_point(self, idx, lmlist):
         return (lmlist[idx][1], lmlist[idx][2]) if idx in range(len(lmlist)) else (0, 0)

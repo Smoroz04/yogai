@@ -57,28 +57,18 @@ class poseAnalyzer():
 
         angles = {}
         try:
-            angles["Left Elbow"] = self.calculateAngle(
-                landmarks[11], landmarks[13], landmarks[15]
-            )
-            angles["Right Elbow"] = self.calculateAngle(
-                landmarks[12], landmarks[14], landmarks[16]
-            )
-            angles["Left Knee"] = self.calculateAngle(
-                landmarks[23], landmarks[25], landmarks[27]
-            )
-            angles["Right Knee"] = self.calculateAngle(
-                landmarks[24], landmarks[26], landmarks[28]
-            )
-            angles["Left Shoulder"] = self.calculateAngle(
-                landmarks[13], landmarks[11], landmarks[23]
-            )
-            angles["Right Shoulder"] = self.calculateAngle(
-                landmarks[14], landmarks[12], landmarks[24]
-            )
+            angles["Left Elbow"] = self.calculateAngle(landmarks[11], landmarks[13], landmarks[15])
+            angles["Right Elbow"] = self.calculateAngle(landmarks[12], landmarks[14], landmarks[16])
+            angles["Left Knee"] = self.calculateAngle(landmarks[23], landmarks[25], landmarks[27])
+            angles["Right Knee"] = self.calculateAngle(landmarks[24], landmarks[26], landmarks[28])
+            angles["Left Shoulder"] = self.calculateAngle(landmarks[13], landmarks[11], landmarks[23])
+            angles["Right Shoulder"] = self.calculateAngle(landmarks[14], landmarks[12], landmarks[24])
         except KeyError:
             print("Error: Landmark indices out of range.")
             return None
+
         return angles
+
 
 def pushToCSV(name, anglesDic):
     with open("poseData.csv", "a", newline="") as file: 
