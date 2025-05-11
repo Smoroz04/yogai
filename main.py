@@ -82,7 +82,7 @@ def save_joint_angles_to_csv(currAngles, filename="joint_angles.csv"):
 #     camera.release()
 
 
-                
+
 
 
 
@@ -191,6 +191,7 @@ def choose():
 
 @app.route('/display')
 def display():
+    clearCSV("joint_angles.csv")
     return render_template('display.html')
 
 @app.route('/before')
