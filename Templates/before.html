@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dancer Pose - YOGAI</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #e6dfd5;
+      color: #57604b;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header styles */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      font-weight: 500;
+      font-size: 1.25rem;
+    }
+
+    .menu-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #57604b;
+    }
+
+    /* Main content styles */
+    .main-content {
+      flex: 1;
+      padding: 2rem 0;
+    }
+
+    .pose-header {
+      display: flex;
+    justify-content: center; /* centers horizontally */
+    align-items: center;
+    margin-bottom: 3rem; /* optional spacing to push down from the top */
+}
+
+    .pose-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #57604b;
+    margin: 2rem 0;
+    }
+  
+
+    .pose-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .pose-info {
+      background-color: #c3caba;
+      border-radius: 2rem;
+      padding: 2rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-section {
+      margin-bottom: 2rem;
+    }
+
+    .info-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #57604b;
+    }
+
+    .info-text {
+      color: #57604b;
+      opacity: 0.9;
+    }
+
+    .pose-image {
+      background-color: #fff;
+      border-radius: 2rem;
+      overflow: hidden;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .pose-image img {
+      width: 100%;
+      height: auto;
+    }
+
+    .cta-button {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #57604b;
+      color: white;
+      text-align: center;
+      padding: 1rem 2rem;
+      border-radius: 9999px;
+      font-weight: 500;
+      font-size: 1.25rem;
+      transition: background-color 0.3s;
+    }
+
+    .cta-button:hover {
+      background-color: #48503c;
+    }
+
+    /* Responsive styles */
+    @media (min-width: 768px) {
+      .pose-content {
+        flex-direction: row;
+      }
+
+      .pose-info {
+        width: 40%;
+      }
+
+      .pose-image {
+        width: 60%;
+      }
+
+      .pose-title {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="container">
+    <header>
+      <a href="/index" class="logo">YOGAI</a>
+
+      <button class="menu-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="pose-header">
+      <h1 id="poseTitle"></h1>
+    </div>
+    <div class="container">
+      
+      <div class="pose-content">
+        <div class="pose-info">
+          <div class="info-section">
+            <h2 class="info-title">ABOUT</h2>
+            <p class="info-text">then we would talk about</p>
+          </div>
+          
+          <div class="info-section">
+            <h2 class="info-title">POSE BENEFITS</h2>
+            <p class="info-text">then we would talk about</p>
+          </div>
+        </div>
+        
+        <div class="pose-image">
+          <img src="https://via.placeholder.com/800x600" alt="Pose">
+        </div>
+      </div>
+
+      <a href="/display" class="cta-button">get started</a>
+
+    </div>
+  </main>
+
+  <script>
+   const selectedPose = localStorage.getItem("selectedPose");
+
+// Convert filename to a nice display name
+function formatPoseName(fileName) {
+  if (!fileName) return "Pose";
+  
+  // remove extension and replace - or _ with space
+  const name = fileName.replace(/\.[^/.]+$/, "").replace(/([A-Z])/g, " $1").replace(/_/g, " ").trim();
+  
+  // Capitalize first letter
+  return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+const poseName = formatPoseName(selectedPose);
+document.getElementById("poseTitle").textContent = poseName;
+
+// Load pose image
+const poseImages = {
+    "mountainPose.png": "{{ url_for('static', filename='posePictures/mountainPose.png') }}",
+    "WarriorPose.png": "{{ url_for('static', filename='posePictures/WarriorPose.png') }}", 
+    "boatPose.png": "{{ url_for('static', filename='posePictures/boatPose.png') }}",
+    "halfLordOfTheFishes.png": "{{ url_for('static', filename='posePictures/halfLordOfTheFishes.png') }}",
+    "dancerPose.png": "{{ url_for('static', filename='posePictures/dancerPose.png') }}",
+    "revolvedTrianglePose.png": "{{ url_for('static', filename='posePictures/revolvedTrianglePose.png') }}",
+    "childPose.png": "{{ url_for('static', filename='posePictures/childPose.png') }}",
+    "chairPose.png": "{{ url_for('static', filename='posePictures/chairPose.png') }}",
+    "utthita-hasta-padasana.png": "{{ url_for('static', filename='posePictures/UtthitaHasta Padasana.png') }}"
+};
+
+document.querySelector(".pose-image img").src = poseImages[selectedPose];
+
+// Pose data mapping
+const poseDescriptions = {
+  "WarriorPose.png": {
+    about: "Warrior II is a strong standing pose rooted in mythology. It builds presence, balance, and inner strength by engaging the legs and core while the arms extend in fierce focus.",
+    benefits: "Improves stamina and balance, strengthens legs and shoulders, and opens the hips. Boosts confidence and body awareness."
+  },
+  "mountainPose.png": {
+    about: "Mountain Pose appears simple, but it’s the foundation for all standing poses. It aligns the body and centers the mind through quiet strength.",
+    benefits: "Improves posture, grounds the body, and enhances awareness and focus. Great for breath alignment and stability."
+  },
+  "utthita-hasta-padasana.png": {
+    about: "A preparatory stance for wide-legged poses. It teaches expansion and symmetry by stretching the limbs outward with strong grounding.",
+    benefits: "Enhances alignment, stretches legs and arms, and improves overall posture and balance."
+  },
+  "boatPose.png": {
+    about: "Boat Pose is a core-intensive balance posture that lifts the body into a V-shape, strengthening the center while improving focus.",
+    benefits: "Tones abdominal muscles, improves balance, and builds deep core strength. Supports digestion and posture."
+  },
+  "halfLordOfTheFishes.png": {
+    about: "A deep seated twist that promotes detox and spinal flexibility. It channels introspection and revitalization through mindful rotation.",
+    benefits: "Stimulates digestion, enhances spinal mobility, and relieves lower back tension."
+  },
+  "dancerPose.png": {
+    about: "Dancer Pose is a beautiful balance between strength and grace. With one leg lifted and arms stretched, it embodies elegance in motion.",
+    benefits: "Improves balance and coordination, strengthens legs and spine, opens chest and shoulders."
+  },
+  "revolvedTrianglePose.png": {
+    about: "This twisting pose merges stability with rotation, helping detoxify and energize the body while demanding focus and breath control.",
+    benefits: "Builds strength in legs and core, increases spinal flexibility, and aids digestion through twisting."
+  },
+  "childPose.png": {
+    about: "Child’s Pose is a gentle resting posture that allows the body to surrender and reset. It encourages stillness and introspection.",
+    benefits: "Relieves back, shoulder, and neck tension. Calms the nervous system and promotes emotional grounding."
+  },
+  "chairPose.png": {
+    about: "Chair Pose simulates sitting on an invisible chair, activating multiple muscle groups. It’s a heat-building, empowering asana.",
+    benefits: "Tones thighs, glutes, and core. Builds stamina and improves posture and focus through disciplined breath."
+  }
+};
+
+// Fill in the about and benefits based on selected pose
+const aboutText = document.querySelectorAll('.info-text')[0];
+const benefitsText = document.querySelectorAll('.info-text')[1];
+
+if (poseDescriptions[selectedPose]) {
+  aboutText.textContent = poseDescriptions[selectedPose].about;
+  benefitsText.textContent = poseDescriptions[selectedPose].benefits;
+} else {
+  aboutText.textContent = "Details coming soon.";
+  benefitsText.textContent = "Benefits coming soon.";
+}
+
+</script>
+
+
+</body>
+</html>

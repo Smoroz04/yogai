@@ -1,123 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-			font-family: 'Montserrat', sans-serif;
-		}
-
-		main {
-			padding: 4rem 2rem;
-		}
-
-		h1 {
-			text-align: center;
-			font-size: 2.5rem;
-			margin-bottom: 4rem;
-		}
-
-        h2 {
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-		.buttons {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-		}
-
-		.button {
-			appearance: none;
-			border: none;
-			outline: none;
-			background: none;
-			cursor: pointer;
-			font-size: 1.25rem;
-			font-weight: 700;
-			text-transform: uppercase;
-			padding: 1rem 1.5rem;
-			border-radius: 0.5rem;
-			background-color: rgb(69, 119, 54);
-			color: white;
-			margin-bottom: 2rem;
-		}
-
-		#one {
-			background-image: linear-gradient(to right, rgb(65, 110, 59) 50%, rgb(30, 55, 22) 50%);
-			background-size: 200%;
-			transition: 0.4s ease-out;
-			background-position: right;
-		}
-
-		#one:hover {
-			background-position: left;
-		}
-
-		.container {
-			display: flex;
-			justify-content: center;  /* Centers horizontally */
-			align-items: center;      /* Centers vertically */
-			gap: 20px;  /* Space between elements */
-			margin-top: 20px;
-		}
-
-		.videoElement, .pose-reference {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-		}
-
-		#videoStream, #poseImage {
-			width: 480px;  /* Set a fixed width */
-			height: 360px; /* Set a fixed height */
-			border: 3px solid #333;
-			border-radius: 10px;
-		}
-
-
-
-
-	</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dancer Pose Practice - YOGAI</title>
+  <style>
+    /* [same CSS styles from your original omitted for brevity — keep all your styling as-is] */
+  </style>
 </head>
-
 <body>
-    <h1>Yoga AI Pose Guide</h1>
-    <div class="container">
-        
-        <div class="videoElement">
-            <h2>Camera Feed</h2>
-            <img id="videoStream" alt="Live Camera Feed">
-        </div>
-		<div class="pose-reference">
-            <h2>Pose Reference</h2>
-			<img id="poseImage" src="" alt="Reference Pose">
-        </div>
+  <!-- Header -->
+  <div class="container">
+    <header>
+      <a href="/index" class="logo">YOGAI</a>
+      <button class="menu-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="pose-header">
+      <h1 id="poseTitle"></h1>
     </div>
+    <div class="container">
 
-    <script>
-        //   selected pose
-        const selectedPose = localStorage.getItem("selectedPose") || "WarriorPose.png";
+    <div class="video-container" id="videoContainer">
+      <video id="videoStream" autoplay playsinline muted></video>
+      <canvas id="videoCanvas" style="display: none;"></canvas>
+      <div id="countdown-overlay" class="countdown-overlay">
+        <div id="countdown-number" class="countdown-number">5</div>
+        <div class="countdown-text">Get ready to start</div>
+      </div>
+    </div>
+      
 
-        //  video feed 
-        document.getElementById("videoStream").src = `/video?pose=${selectedPose}`;
+      <!-- Reference Image and Timer -->
+      <div class="controls-container">
+        <div class="reference-image">
+          <img src="https://via.placeholder.com/300x300">
+        </div>
 
-		const poseImages = {
-            "mountainPose.png": "{{ url_for('static', filename='posePictures/mountainPose.png') }}",
-            "WarriorPose.png": "{{ url_for('static', filename='posePictures/WarriorPose.png') }}"
-        };
+        <div class="timer-container">
+          <div class="timer-label">TIMER</div>
+          <div class="timer-display" id="timer">00:00</div>
+        </div>
+      </div>
 
-        //  pose image
-		document.getElementById("poseImage").src = poseImages[selectedPose] 
+      <!-- Results Button (initially hidden) -->
+      <div id="results-button-container" class="results-button-container">
+        <button id="results-button" class="results-button animate-button">See Your Results</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const selectedPose = localStorage.getItem("selectedPose");
+
+    // Update pose title
+    const poseTitle = document.getElementById("poseTitle");
+    const poseName = selectedPose ? selectedPose.replace(/\.png$/, '').replace(/([A-Z])/g, ' $1').trim() : "Pose";
+    poseTitle.textContent = poseName.toUpperCase();
+
+    // Update reference image
+    const referenceImage = document.querySelector(".reference-image img");
+    if (selectedPose) {
+        referenceImage.src = "static/posePictures/" + selectedPose;
+    }
+
+    const timerDisplay = document.getElementById('timer');
+    const countdownOverlay = document.getElementById('countdown-overlay');
+    const countdownNumber = document.getElementById('countdown-number');
+    const resultsButtonContainer = document.getElementById('results-button-container');
+    const resultsButton = document.getElementById('results-button');
+
+    let timerInterval;
+    let elapsedTime = 0;
+    const MAX_TIME = 30;
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return `${mins}:${secs}`;
+    }
+
+    function updateTimer() {
+      elapsedTime += 1;
+      timerDisplay.textContent = formatTime(elapsedTime);
+      if (elapsedTime >= MAX_TIME) {
+        stopTimer();
+        timerComplete();
+      }
+    }
+
+    function startTimer() {
+      if (!timerInterval) {
+        timerInterval = setInterval(updateTimer, 1000);
+      }
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    function timerComplete() {
+      timerDisplay.classList.add('timer-complete');
+
+      // Show the results button (if you still want it)
+      setTimeout(() => {
+        resultsButtonContainer.classList.add('visible');
+      }, 1000);
+
+      // Automatically redirect to /results after 3 seconds
+      setTimeout(() => {
+        window.location.href = `/results?pose=${selectedPose}`;
+      }, 3000);
+}
 
 
-    </script>
+    function startCountdown(seconds, callback) {
+      let count = seconds;
+      countdownNumber.textContent = count;
+      const countdownInterval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countdownNumber.classList.add('animate-countdown');
+          setTimeout(() => {
+            countdownNumber.textContent = count;
+          }, 100);
+          setTimeout(() => {
+            countdownNumber.classList.remove('animate-countdown');
+          }, 900);
+        } else {
+          clearInterval(countdownInterval);
+          countdownOverlay.style.opacity = '0';
+          setTimeout(() => {
+            countdownOverlay.style.display = 'none';
+            if (callback && typeof callback === 'function') {
+              callback();
+            }
+          }, 500);
+        }
+      }, 1000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const videoElement = document.getElementById('videoStream');
+      const canvas = document.getElementById('videoCanvas');
+      const context = canvas.getContext('2d');
+
+      // Access webcam
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then((stream) => {
+          videoElement.srcObject = stream;
+
+          // Send frames every 500ms after countdown
+          setTimeout(() => {
+            setInterval(() => {
+              canvas.width = videoElement.videoWidth;
+              canvas.height = videoElement.videoHeight;
+              context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+              const imageData = canvas.toDataURL('image/jpeg');
+              fetch('/process_frame', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: imageData, pose: selectedPose })
+              })
+              .then(res => res.json())
+              .then(data => {
+                const videoBox = document.getElementById('videoContainer');
+                if (data.match) {
+                  videoBox.style.border = '10px solid green';
+                } else {
+                  videoBox.style.border = '10px solid red';
+                }
+              });
+            }, 500);
+          }, 5500); // after countdown finishes
+        })
+        .catch((error) => {
+          console.error("Webcam access denied:", error);
+        });
+
+      // Start countdown then timer
+      startCountdown(5, () => {
+        setTimeout(() => {
+          startTimer();
+        }, 0);
+      });
+
+      resultsButton.addEventListener('click', function() {
+        window.location.href = '/results';
+      });
+    });
+  </script>
 </body>
 </html>

@@ -1,94 +1,845 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-			font-family: 'Montserrat', sans-serif;
-		}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pose Library - YOGAI</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
 
-		main {
-			padding: 4rem 2rem;
-		}
+    
+    body {
+      background-color: #e6dfd5;
+      color: #57604b;
+      line-height: 1.6;
+    }
 
-		h1 {
-			text-align: center;
-			font-size: 2.5rem;
-			margin-bottom: 4rem;
-		}
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-        h2 {
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-        }
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
 
-		.buttons {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-		}
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
 
-		.button {
-			appearance: none;
-			border: none;
-			outline: none;
-			background: none;
-			cursor: pointer;
-			font-size: 1.25rem;
-			font-weight: 700;
-			text-transform: uppercase;
-			padding: 1rem 1.5rem;
-			border-radius: 0.5rem;
-			background-color: rgb(69, 119, 54);
-			color: white;
-			margin-bottom: 2rem;
-		}
+    /* Header styles */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
 
-		#one {
-			background-image: linear-gradient(to right, rgb(65, 110, 59) 50%, rgb(30, 55, 22) 50%);
-			background-size: 200%;
-			transition: 0.4s ease-out;
-			background-position: right; 
-		}
+    .logo {
+      font-weight: 500;
+      font-size: 1.25rem;
+    }
 
-		#one:hover {
-			background-position: left; 
-		}
+    .menu-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #57604b;
+    }
 
-	</style>
+    /* Hero section styles */
+    .hero {
+      padding: 2rem 0 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .hero-image {
+		width: 150px;
+		height: auto;
+    }
+
+    /* Pose grid styles */
+    .pose-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .pose-card {
+     
+    }
+
+    .pose-image {
+      width: 100%;
+      height: 350px;
+      background-color: #e6dfd5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .pose-image img {
+      max-height: 100%;
+      width: auto;
+    }
+
+    .pose-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+    }
+
+    .pose-name {
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin-top: 1rem;
+      text-transform: uppercase;
+    }
+
+    .pose-difficulty {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* Upload section */
+    .upload-section {
+      background-color: #57604b;
+      color: white;
+      padding: 4rem 0;
+      margin-top: 3rem;
+    }
+
+    .upload-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      display: flex;
+      flex-direction: row; /* CHANGE THIS */
+      align-items: center;
+      justify-content: center;
+      gap: 4rem; /* OPTIONAL: adds space between image + text */
+    }
+
+    .upload-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* this aligns text + button to the left */
+      text-align: left; /* ensures text is left aligned */
+      max-width: 600px;
+      gap: 1rem; /* adds spacing between text and button nicely */
+    }
+
+    .upload-image-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 2rem;
+      margin: left;
+    }
+
+    .upload-image {
+      width: 100%;
+      height: auto;
+    }
+
+    .upload-intro {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-heading {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .tech-container {
+           position: relative;
+           display: inline-block;
+       
+       }
+
+       .tech-glow {
+           position: absolute;
+           inset: -5px;
+           border-radius: 9999px;
+           background: linear-gradient(90deg, #aab4ae, #aab4ae, #aab4ae);
+           background-size: 300% 300%;
+           opacity: 1;
+           filter: blur(8px);
+           animation: border-flow 8s ease infinite, glow-pulse 2s ease-in-out infinite;
+           z-index: 1;
+           margin-top: 20px;
+       }
+
+       .tech {
+           position: relative;
+           padding: 16px 32px;
+           background-color:#e6dfd5 ;
+           color: #68705f; 
+           font-size: 24px;
+           border-radius: 9999px;
+           border: none;
+           cursor: pointer;
+           z-index: 2;
+           transition: all 0.3s;
+           margin-top: 20px;
+      
+       }
+
+
+
+
+
+
+    
+    /* Get started button with glow effect */
+    .get-started-container {
+      position: relative;
+      margin-top: 1rem;
+    }
+
+    @keyframes glowing {
+      0% {
+        box-shadow: 0 0 5px #57604b, 0 0 10px #57604b, 0 0 15px #57604b;
+        opacity: 0.3;
+      }
+      50% {
+        box-shadow: 0 0 10px #57604b, 0 0 20px #57604b, 0 0 30px #57604b;
+        opacity: 0.6;
+      }
+      100% {
+        box-shadow: 0 0 5px #57604b, 0 0 10px #57604b, 0 0 15px #57604b;
+        opacity: 0.3;
+      }
+    }
+
+    .get-started {
+      background-color: #e6dfd5;
+      color: #57604b;
+      border: none;
+      border-radius: 9999px;
+      padding: 1rem 2rem;
+      font-size: 1.25rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 2;
+      animation: glowing 3s infinite;
+    }
+
+    .get-started:hover {
+      background-color: #d1cabb;
+      transform: translateY(-2px);
+    }
+
+
+
+    .button {
+		background-color: #c3caba;
+		color: #57604b;
+		padding: 0.75rem 2rem;
+		border-radius: 9999px;
+		font-weight: 500;
+		transition: background-color 0.3s;
+		margin-top: 1.5rem; 
+		border: none;
+  		outline: none;
+    }
+
+    .button:hover {
+      background-color: #a2ab9a;
+    }
+
+	.button_upload {
+		background-color: #c3caba;
+		color: #57604b;
+		padding: 0.75rem 2rem;
+		border-radius: 9999px;
+		font-weight: 500;
+		transition: background-color 0.3s;
+		margin-top: 1.5rem; 
+		border: none;
+  		outline: none;
+		margin-top: 2.5rem; /* Why is the button not moving down  */
+
+    }
+
+  .button_upload:hover {
+		background-color: #a2ab9a;
+
+    }
+
+    /* Footer styles */
+    footer {
+      background-color: #e6dfd5;
+      color: #57604b;
+      padding: 3rem 0;
+      border-top: 1px solid rgba(87, 96, 75, 0.2);
+    }
+
+    .footer-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-top {
+      margin-bottom: 2rem;
+    }
+
+    .footer-logo {
+      font-weight: 500;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-icon {
+      color: #57604b;
+      transition: color 0.3s;
+    }
+
+    .social-icon:hover {
+      opacity: 0.7;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem 2rem;
+    }
+
+    .footer-column h3 {
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-column a {
+      color: #57604b;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    .footer-column a:hover {
+      opacity: 1;
+    }
+
+    /* Responsive styles */
+    @media (min-width: 768px) {
+      .pose-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cta-container {
+        flex-direction: row;
+        text-align: left;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .cta-content {
+        width: 60%;
+        padding-left: 2rem;
+      }
+
+      .cta-image {
+        margin-bottom: 0;
+      }
+
+      .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .footer-top {
+        margin-bottom: 0;
+      }
+    }
+
+
+
+    @keyframes glow-pulse {
+           0%, 100% {
+               inset: -2px;
+               filter: blur(10px);
+           }
+           50% {
+               inset: -3.5px;
+               filter: blur(30px);
+           }
+       }
+    @media (min-width: 1024px) {
+      .pose-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .hero h1 {
+        font-size: 5rem;
+      }
+    }
+  </style>
 </head>
-
-
 <body>
-	<h1>YOGAI</h1>
-	<h2>What Pose would you like to do?</h2>
-	
-	<div class="buttons">
-		<button class="button" id="one" onclick="selectPose('WarriorPose.png')">
-			<span>Warrior Pose</span>
-		</button>
-	</div>
+  <!-- Header -->
+  <div class="container">
+    <header>
+      <a href="/index" class="logo">YOGAI</a>
+      <button class="menu-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+  </div>
 
-	<div class="buttons">
-		<button class="button" id="one" onclick="selectPose('mountainPose.png')">
-			<span>Mountain Pose</span>
-		</button>
-	</div>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>
+          POSE<br>LIBRARY
+        </h1>
+        <div class="hero-image">
+			<svg width="256" height="311" viewBox="0 0 356 411" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<mask id="mask0_27_53" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="294" height="396">
+				<path d="M0 0H293.965V395.982H0V0Z" fill="white"/>
+				</mask>
+				<g mask="url(#mask0_27_53)">
+				<path d="M285.672 231.188C277.792 208.693 268.513 186.199 261.044 172.816C253.573 159.435 246.02 126.594 242.735 114.855C239.533 103.197 219.091 69.619 215.56 67.3203C212.031 65.1038 162.278 27.0908 151.278 21.9183C140.276 16.7479 113.431 1.96998 110.393 2.95395C108.012 3.69346 108.177 4.51514 108.341 4.84381C107.766 4.1043 104.563 1.63913e-06 103.744 0.490956C102.922 1.06613 103.744 3.36479 103.744 3.36479C103.744 3.36479 102.018 3.28262 101.772 4.02213C101.525 4.76164 107.848 9.27678 112.281 12.2307C116.714 15.1867 130.015 27.666 129.686 28.652C129.44 29.5538 127.059 27.4195 122.133 26.5177C117.125 25.6139 114.169 27.5838 114.58 29.143C114.99 30.7042 120.081 29.8825 123.856 31.9346C127.634 33.9868 134.694 39.6523 139.867 39.2414C145.037 38.8306 150.21 36.041 153.741 38.4218C157.27 40.8026 202.836 84.3147 203.902 88.419C204.971 92.4412 217.203 124.871 217.532 130.372C217.777 135.871 219.502 157.874 219.666 163.457C219.831 169.04 221.143 174.622 220.322 175.525C219.502 176.429 205.955 168.136 202.918 165.427C199.88 162.718 195.694 155.575 197.746 150.978C199.798 146.38 207.925 137.597 207.187 134.476C206.448 131.356 201.193 129.797 200.291 128.482C199.387 127.17 197.253 125.857 196.596 126.266C195.938 126.677 195.365 126.841 195.365 126.841C195.365 126.841 196.103 124.953 195.365 124.049C194.626 123.147 191.916 124.214 191.505 122.737C191.094 121.258 191.998 115.183 190.357 114.526C188.796 113.869 178.042 116.496 175.333 114.115C172.623 111.734 157.27 106.808 149.308 107.876C138.881 109.189 124.185 121.586 126.977 141.454C129.768 161.323 146.27 169.369 157.516 171.257C168.765 173.145 172.705 175.772 176.645 181.355C180.587 186.937 182.064 202.372 174.922 207.955C167.779 213.536 154.645 215.262 148.075 227.084C141.508 238.906 135.514 255.407 123.692 267.969C111.87 280.53 101.607 293.254 90.8535 301.3C80.1798 309.346 45.4535 343.253 40.2811 350.642C35.0264 357.949 25.9961 368.62 21.1523 373.136C16.3085 377.651 7.60485 385.286 3.74706 387.421C-0.110736 389.555 -0.110736 390.459 1.53057 391.363C2.43237 391.856 5.47053 390.705 8.59087 389.146C7.85135 390.294 7.52268 391.116 7.60485 391.609C8.26219 394.236 13.7634 388.817 13.7634 388.817C13.7634 388.817 13.2703 391.609 14.4186 391.856C15.569 392.1 20.4128 383.645 20.4128 383.645C20.4128 383.645 19.4268 387.174 20.7415 387.256C21.481 387.338 24.2706 382.495 25.9961 378.555C26.2426 378.472 26.4891 378.39 26.8158 378.39C31.4952 377.979 32.5634 377.815 33.3029 382.086C34.0404 386.272 35.4372 395.631 38.2289 395.549C41.0185 395.385 40.6097 388.982 40.6097 386.354C40.6097 383.727 41.265 377.815 42.4975 376.338C43.728 374.861 47.2592 369.278 48.3253 366.24C49.3935 363.201 49.8865 361.067 53.0068 357.538C56.2073 353.925 96.7634 333.319 104.152 324.944C111.541 316.571 130.343 297.522 135.925 292.516C141.508 287.508 163.1 268.297 167.944 263.289C172.787 258.199 177.96 258.528 180.998 260.087C184.116 261.646 203.327 274.618 205.464 286.276C207.598 297.933 205.626 310.002 206.201 310.988C206.776 311.974 292.65 301.465 293.225 299.166C294.129 296.703 293.554 253.684 285.672 231.188Z" fill="#D18965"/>
+				</g>
+				<path d="M257.055 404.719C257.381 405.287 263.901 407.965 267.406 408.94C270.912 409.913 276.534 410.237 278.979 409.425C281.424 408.615 288.596 408.696 290.959 408.859C293.323 409.019 316.389 411.293 323.071 410.968C329.672 410.643 335.947 410.806 337.007 410.156C337.497 409.831 338.637 408.778 338.392 408.371C337.741 407.397 331.954 407.153 332.036 406.91C332.117 406.666 337.007 407.803 339.534 407.397C341.163 407.072 341.082 405.206 340.757 405.044C340.105 404.556 332.199 403.665 332.199 403.665C332.199 403.665 341.245 404.232 341.734 403.99C342.224 403.746 343.771 401.474 342.305 400.743C340.837 400.013 332.688 399.931 332.688 399.931C332.688 399.931 342.795 400.013 343.608 399.525C344.424 399.04 345.645 396.443 343.771 395.631C341.897 394.9 332.688 394.9 332.525 394.9C332.362 394.9 345.077 394.658 345.89 394.334C346.706 394.009 349.069 388.734 342.713 387.112C336.436 385.487 334.562 386.056 330.406 385.244C326.25 384.434 320.381 383.622 316.062 384.19C311.825 384.759 301.066 385.406 296.42 385.325C291.775 385.163 289.656 383.865 287.782 384.028C285.906 384.19 281.587 385.975 276.208 386.543C270.83 387.112 264.961 385.083 263.332 385.731C261.7 386.381 256.405 403.503 257.055 404.719Z" fill="#D18965"/>
+				<path d="M159.848 380.047C158.955 380.299 148.635 378.285 143.596 378.033C138.558 377.781 135.715 378.957 135.065 381.811C134.414 384.579 138.802 386.427 141.89 386.343C145.06 386.259 147.417 386.343 147.417 386.343C147.417 386.343 139.859 386.845 138.883 387.853C137.828 388.945 137.177 390.371 138.883 391.211C140.589 392.049 147.417 391.881 147.417 391.881C147.417 391.881 139.209 391.965 138.721 393.141C138.153 394.315 139.209 396.664 141.321 396.916C143.434 397.084 150.341 395.743 150.099 396.499C149.855 397.252 142.866 397.084 142.216 398.092C141.565 399.1 145.384 400.862 147.821 400.862C150.341 400.778 153.998 400.022 153.998 400.022C153.998 400.022 149.529 400.694 149.855 401.952C150.099 403.212 155.786 402.708 159.848 402.204C163.831 401.7 171.063 400.946 177.401 400.946C183.82 400.946 185.284 400.778 191.377 402.204C197.473 403.632 201.129 404.386 203.567 403.8C206.005 403.212 216 402.288 216 402.288C216 402.288 211.938 393.813 211.694 392.973C211.45 392.133 206.411 386.343 199.342 385.503C192.272 384.663 187.478 384.579 179.27 383.321C171.063 382.061 161.312 379.627 159.848 380.047Z" fill="#D18965"/>
+				<path d="M210.025 387.511C209.78 387.594 211.408 404.535 212.141 404.952C212.872 405.37 240.465 402.95 245.023 401.532C249.581 400.112 245.267 386.845 242.011 385.425C238.757 384.007 212.709 386.51 210.025 387.511Z" fill="#C3CABA"/>
+				<path d="M175.003 206.545C174.838 208.992 180.879 226.364 180.134 232.888C179.388 239.411 185.015 261.677 186.09 263.715C187.166 265.754 199.661 273.747 201.977 279.375C204.211 284.919 205.039 292.667 205.865 292.994C206.693 293.32 230.937 280.352 237.969 277.906C245.085 275.459 292 250.259 292 249.443C292 248.629 282.319 203.609 277.438 199.695C272.556 195.781 259.233 188.929 254.022 186.972C248.809 185.015 220.099 169.6 219.85 170.008C219.602 170.498 218.939 172.863 219.85 173.679C220.759 174.412 240.7 183.711 241.445 186.645C242.189 189.5 233.005 222.042 230.771 223.917C228.537 225.792 185.678 230.522 184.85 227.831C184.022 225.139 178.645 202.876 178.148 202.958C176.326 203.121 175.086 205.323 175.003 206.545Z" fill="#57604B"/>
+				<path d="M206.373 303.762C205.388 304.833 200.788 335.139 201.115 336.128C201.444 337.115 158.314 325.174 147.553 323.527C136.791 321.798 123.072 323.775 118.225 331.679C113.46 339.586 114.856 350.54 116.827 355.399C118.798 360.175 159.301 387.023 183.207 391.47C207.113 395.917 259.854 407.858 260.183 406.951C260.512 406.046 261.005 394.27 262.565 391.14C264.125 388.01 265.359 387.188 265.112 386.281C264.701 384.8 275.135 388.01 278.913 387.433C282.693 386.858 284.747 383.151 290.416 384.717C296.001 386.199 303.477 385.951 315.471 384.8C327.465 383.646 344.553 366.763 349.235 360.01C353.918 353.258 357.862 338.763 355.069 333.657C352.275 328.551 346.277 320.892 337.652 318.998C329.027 317.102 316.457 322.95 312.924 324.597C309.393 326.328 306.764 327.974 306.517 326.82C306.27 325.668 296.987 304.669 296.001 299.562C295.098 294.456 295.098 289.762 293.207 290.009C291.318 290.174 266.919 297.339 249.42 300.714C231.759 304.092 208.591 301.456 206.373 303.762Z" fill="#C3CABA"/>
+				<path d="M232.445 370C232.279 370 232.114 369.916 232.031 369.749C231.948 369.498 232.031 369.248 232.279 369.164C232.445 369.08 245.752 363.065 250.215 360.726C251.867 359.893 254.429 357.888 257.405 355.549C262.612 351.455 269.141 346.443 275.341 343.686C285.011 339.427 308.234 335 308.482 335C308.73 335 308.896 335.084 308.978 335.334C309.061 335.585 308.896 335.752 308.648 335.836C308.399 335.92 285.259 340.263 275.752 344.522C269.72 347.195 263.191 352.207 257.984 356.216C255.008 358.555 252.363 360.559 250.628 361.479C246.166 363.818 232.775 369.916 232.693 370C232.527 370 232.527 370 232.445 370Z" fill="#C3CABA"/>
+				<path d="M264.559 385C264.477 385 264.477 385 264.395 385C264.23 384.918 251.6 379.281 243.401 376.503C232.656 372.906 222.488 367.842 212.401 361.14C200.427 353.215 171.395 344.061 170.41 343.816C170.164 343.816 170 343.654 170 343.409C170 343.164 170.246 343 170.41 343C171.231 343 201.082 352.642 212.811 360.406C222.897 367.106 232.902 372.09 243.647 375.685C251.929 378.463 264.641 384.102 264.723 384.184C264.969 384.266 265.051 384.511 264.969 384.755C264.805 384.918 264.723 385 264.559 385Z" fill="#C3CABA"/>
+				<path d="M229.49 355C229.324 355 229.24 354.913 229.157 354.827C221.119 343.567 202.448 336.986 202.283 336.899C202.031 336.813 201.948 336.553 202.031 336.293C202.115 336.033 202.364 335.946 202.616 336.033C202.783 336.119 221.706 342.789 229.909 354.307C230.076 354.48 229.992 354.827 229.825 354.913C229.657 355 229.573 355 229.49 355Z" fill="#C3CABA"/>
+				<path d="M143.418 186.745C146.108 187.319 148.962 187.728 151.489 187.728C153.935 187.728 156.218 187.401 157.848 186.418C162.984 183.635 164.94 177.335 165.756 172.916C167.386 170.625 168.202 168.743 167.957 168.006C167.468 166.452 165.267 158.103 158.419 157.694C154.668 157.53 151.408 150.083 152.385 147.71C154.262 143.373 166.733 151.557 166.246 148.037C165.593 142.799 152.874 130.444 151.245 122.587C150.021 116.613 155.157 109.247 155.075 106.874C154.994 104.501 143.336 100.655 133.145 104.91C131.189 105.729 129.559 106.385 128.172 107.038C120.102 109.247 109.176 113.748 101.757 122.424C98.0081 126.842 98.5792 134.208 99.7195 139.609C99.6379 140.508 99.6379 141.327 99.7195 142.146C100.291 147.546 102.573 155.976 103.308 160.395C98.0081 155.157 89.204 148.365 80.8059 149.919C79.0128 150.247 77.5461 151.23 76.567 152.866C73.2237 157.94 74.366 168.497 75.9958 177.171C75.6695 178.317 75.3431 179.462 74.8556 180.609C71.5122 188.463 65.3171 199.594 71.9202 208.514C78.5232 217.515 91.813 219.153 89.9363 222.018C88.2249 224.635 71.8386 239.201 73.6316 248.694C71.1042 253.361 69.556 258.433 71.1042 262.526C73.0605 267.764 79.0128 267.108 85.3711 266.535C88.2249 268.007 90.9155 270.219 92.1373 274.719C90.5891 284.13 89.3672 296.324 95.9702 298.533C104.938 301.562 112.52 288.795 124.667 290.676C136.815 292.558 141.298 270.055 140.564 261.707C139.832 253.361 146.435 244.112 153.854 235.274C161.273 226.436 162.739 211.296 156.463 205.16C150.184 199.021 128.335 184.946 129.314 184.127C130.13 183.635 136.325 186.664 143.418 186.745ZM164.532 174.552C163.555 178.645 161.599 183.473 157.44 185.683C154.912 187.073 151 187.073 146.924 186.5C147.901 186.336 148.962 186.09 149.939 185.765C155.483 183.963 161.109 178.889 164.532 174.552ZM82.6805 264.653C80.8875 263.916 79.3392 263.179 78.2785 262.198C77.7073 261.625 77.4645 260.888 77.5461 259.989C77.6257 258.76 78.1153 257.37 79.0128 255.734C85.5343 260.234 93.606 260.234 93.6876 265.634C91.0786 265.39 88.2249 265.716 85.5343 265.962C84.5572 265.472 83.578 265.063 82.6805 264.653ZM77.2198 153.439C78.1153 152.049 79.3392 151.148 80.969 150.902C81.785 150.738 82.5989 150.656 83.4148 150.656C91.3234 150.656 99.0688 157.284 103.471 161.949C103.552 162.522 103.471 162.932 103.389 163.177C97.5185 159.903 87.4089 154.747 82.0298 155.321C78.9312 155.648 77.3014 160.968 77.1382 170.952C77.1382 171.116 77.1382 171.28 77.1382 171.444C76.8934 172.67 76.6486 173.979 76.3222 175.289C75.0187 167.105 74.2844 157.94 77.2198 153.439ZM83.3333 161.541C80.3979 162.85 79.0128 164.977 78.1153 167.596C78.3601 163.505 78.9312 159.821 80.0715 157.776C80.6427 156.795 81.2954 156.222 82.1114 156.14C86.4318 155.648 94.2588 159.25 100.128 162.358C95.9702 161.05 88.6328 159.25 83.3333 161.541ZM71.8386 262.526C70.4515 258.924 71.757 254.423 73.8764 250.168C74.1212 250.742 74.366 251.313 74.774 251.804C75.8327 253.197 76.975 254.26 78.1969 255.16C77.2198 256.878 76.6486 258.514 76.567 259.825C76.4854 260.97 76.8934 261.952 77.5461 262.69C78.6864 263.834 80.3979 264.571 82.193 265.308C82.6805 265.554 83.2517 265.798 83.8228 266.044C78.1969 266.617 73.4684 266.781 71.8386 262.526ZM86.8398 266.699C89.204 266.453 91.4866 266.289 93.606 266.535C93.606 266.617 93.606 266.699 93.606 266.781C93.3613 268.417 92.8717 270.708 92.4637 273.327C91.1602 269.973 89.1224 268.007 86.8398 266.699ZM113.254 116.858C106.486 122.26 101.515 130.117 100.128 136.99C99.3931 132.162 99.3931 126.597 102.41 123.079C108.362 116.121 116.351 111.948 123.362 109.493C120.428 111.213 117.901 113.095 113.254 116.858Z" fill="black"/>
+				</svg>
+        </div>
+      </div>
+    </div>
+  </section>
 
-	<script>
-		function selectPose(pose) {
-			localStorage.setItem("selectedPose", pose); // Store user choice
-			window.location.href = "/display"; // Redirect to display page
-		}
-	</script>
+  <!-- Pose Grid Section -->
+  <section>
+    <div class="container">
+      <div class="pose-grid">
+        
+        <!-- Pose  -->
+        <div class="pose-card">
+          <div class="pose-image" >
+			<button class="button" id="one" onclick="selectPose('WarriorPose.png')">
+            <img src="static/posePictures/warrior.png" >
+			</button>
+          </div>
+        </div>
+
+
+        <!-- Pose  -->
+        <div class="pose-card">
+          <div class="pose-image" >
+			<button class="button" id="one" onclick="selectPose('mountainPose.png')">
+            <img src="static/posePictures/MOUNTAIN.png" >
+			</button>
+          </div>
+        </div>
+
+         <!-- Pose  -->
+         <div class="pose-card">
+          <div class="pose-image" >
+			<button class="button" id="one" onclick="selectPose('utthita-hasta-padasana.png')">
+            <img src="static/posePictures/UtthitaHasta Padasana.png" >
+			</button>
+          </div>
+        </div>
+
+
+        
+        
+        
+        <!-- Pose 1 -->
+        <div class="pose-card">
+          <div class="pose-image" >
+			<button class="button" id="one" onclick="selectPose('boatPose.png')">
+            <img src="static/posePictures/BOAT POSE.png" >
+			</button>
+          </div>
+        </div>
+
+        <!-- Pose 2 -->
+        <div class="pose-card">
+          <div class="pose-image">
+			<button class="button" id="one" onclick="selectPose('halfLordOfTheFishes.png')">
+			<img src="static/posePictures/Half Lord of the fishes.png">
+		</button>
+          </div>
+        </div>
+
+        <!-- Pose 3 -->
+        <div class="pose-card">
+          <div class="pose-image">
+			<button class="button" id="one" onclick="selectPose('dancerPose.png')">
+            <img src="static/posePictures/DANCER POSE.png">
+			</button>
+          </div>
+        </div>
+
+        <!-- Pose 4 -->
+        <div class="pose-card">
+          <div class="pose-image">
+			<button class="button" id="one" onclick="selectPose('revolvedTrianglePose.png')">
+            <img src="static/posePictures/REVOLVED TRIANGLE.png" >
+			</button>
+		</div>
+        </div>
+
+        <!-- Pose 5 -->
+        <div class="pose-card">
+          <div class="pose-image">
+			<button class="button" id="one" onclick="selectPose('childPose.png')">
+            <img src="static/posePictures/CHILD POSE.png" alt="Child pose">
+		</button>
+		</div>
+        </div>
+
+        <!-- Pose 6 -->
+        <div class="pose-card">
+          <div class="pose-image">
+			<button class="button" id="one" onclick="selectPose('chairPose.png')">
+            <img src="static/posePictures/CHAIR.png" >
+		</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="upload-section">
+    <div class="container upload-container">
+      <div class="upload-image-container">
+        <img src="static/posePictures/LADY POSING .png" alt="Yoga pose illustration" class="upload-image">
+      </div>
+      
+      <div class="upload-content">
+        <div class="upload-intro">want to learn a new pose?</div>
+        <h2 class="upload-heading">UPLOAD A NEW POSE TO LEARN</h2>
+        
+        <div class="tech-container">
+          <div class="tech-glow"></div>
+          <a href="/upload" class="tech">get started</a>
+      </div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-container">
+      <div class="footer-top">
+        <div class="footer-logo">YOGAI</div>
+        
+      </div>
+      
+      <div class="footer-links">
+        <div class="footer-column">
+          <a href="#" class="social-icon">
+            <h3> Developers </h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect width="4" height="12" x="2" y="9"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </a>
+         
+          <ul>
+            <li><a href="https://www.linkedin.com/in/sebmoroz/">Seb Boner</a></li>
+            <li><a href="https://www.linkedin.com/in/ayansingal/">Ayan Singal</a></li>
+            <li><a href="https://www.linkedin.com/in/mariannasperanza/ ">Marianna Speranza </a></li>
+          </ul>
+        </div>
+    </div>
+  </footer>
+
+
+
+
+<script>
+	function selectPose(pose) {
+		localStorage.setItem("selectedPose", pose); // Store user choice
+		window.location.href = "/before"; // Redirect to display page
+	}
+
+  // Function to add sidebar functionality to all pages
+  function addSidebarToPage() {
+      // Create style element for sidebar CSS
+      const style = document.createElement('style');
+      style.textContent = `
+      /* Sidebar styles */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        right: -320px; /* Start off-screen */
+        width: 320px;
+        height: 100vh;
+        background-color: #57604b;
+        color: #e6dfd5;
+        z-index: 1000;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+      }
+
+      .sidebar.open {
+        right: 0;
+      }
+
+      .sidebar-content {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .sidebar-logo {
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(230, 223, 213, 0.2);
+      }
+
+      .sidebar-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        color: #e6dfd5;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+
+      .sidebar-nav {
+        margin-top: 1rem;
+      }
+
+      .sidebar-nav ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .sidebar-nav li {
+        margin-bottom: 1rem;
+      }
+
+      .sidebar-nav a {
+        display: block;
+        padding: 0.75rem 0;
+        color: #e6dfd5;
+        text-decoration: none;
+        font-size: 1.25rem;
+        transition: all 0.2s ease;
+        border-radius: 4px;
+      }
+
+      .sidebar-nav a:hover {
+        background-color: rgba(230, 223, 213, 0.1);
+        padding-left: 0.5rem;
+      }
+
+      .sidebar-nav a.active {
+        font-weight: 600;
+        color: #c3caba;
+      }
+
+      /* Overlay styles */
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Additional styles for mobile */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 280px;
+        }
+      }
+      `;
+      
+      // Add the style to the head
+      document.head.appendChild(style);
+      
+      // Create the sidebar element
+      const sidebar = document.createElement('div');
+      sidebar.className = 'sidebar';
+      
+      const sidebarContent = document.createElement('div');
+      sidebarContent.className = 'sidebar-content';
+      
+      const closeButton = document.createElement('button');
+      closeButton.className = 'sidebar-close';
+      closeButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      `;
+      
+      const sidebarLogo = document.createElement('div');
+      sidebarLogo.className = 'sidebar-logo';
+      sidebarLogo.textContent = 'YOGAI';
+      
+      const navLinks = document.createElement('nav');
+      navLinks.className = 'sidebar-nav';
+      
+      // Define the navigation links
+      const links = [
+        { name: 'Home', url: '/index' },
+        { name: 'Pose Library', url: '/choose' },
+        { name: 'Behind the Tech', url: '/tech' },
+        { name: 'Upload Pose', url: '/upload' },
+        
+      ];
+      
+      // Create the navigation list
+      const navList = document.createElement('ul');
+      links.forEach(link => {
+        const listItem = document.createElement('li');
+        const anchor = document.createElement('a');
+        anchor.href = link.url;
+        anchor.textContent = link.name;
+        
+        // Highlight the current page
+        if (window.location.pathname.includes(link.url.substring(1))) {
+          anchor.className = 'active';
+        }
+        
+        listItem.appendChild(anchor);
+        navList.appendChild(listItem);
+      });
+      
+      navLinks.appendChild(navList);
+      
+      // Assemble the sidebar
+      sidebarContent.appendChild(closeButton);
+      sidebarContent.appendChild(sidebarLogo);
+      sidebarContent.appendChild(navLinks);
+      sidebar.appendChild(sidebarContent);
+      
+      // Add overlay for closing the sidebar when clicking outside
+      const overlay = document.createElement('div');
+      overlay.className = 'sidebar-overlay';
+      
+      // Add sidebar and overlay to the body
+      document.body.appendChild(sidebar);
+      document.body.appendChild(overlay);
+      
+      // Add event listeners
+      const menuButton = document.querySelector('.menu-button');
+      
+      if (menuButton) {
+        menuButton.addEventListener('click', function() {
+          sidebar.classList.add('open');
+          overlay.classList.add('active');
+          document.body.style.overflow = 'hidden'; // Prevent scrolling when sidebar is open
+        });
+      }
+      
+      closeButton.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; // Re-enable scrolling
+      });
+      
+      overlay.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; // Re-enable scrolling
+      });
+    }
+
+    // Add the sidebar when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', addSidebarToPage);
+
+
+
+
+
+</script>
+
+
 
 </body>
+
 </html>
- 
  

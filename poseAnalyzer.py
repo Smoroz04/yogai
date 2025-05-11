@@ -4,6 +4,8 @@ import numpy as np
 import csv
 import time
 
+
+
 class poseAnalyzer():
     def __init__(self):
         self.mpDraw = mp.solutions.drawing_utils
@@ -33,8 +35,8 @@ class poseAnalyzer():
         c = np.array(c) 
 
         # Finding the vectors
-        ab = a - b 
-        cb = c - b  
+        ab = a - b
+        cb = c - b
 
         # Dot product
         cosine_angle = np.dot(ab, cb) / (np.linalg.norm(ab) * np.linalg.norm(cb))
@@ -55,27 +57,16 @@ class poseAnalyzer():
 
         angles = {}
         try:
-            angles["Left Elbow"] = self.calculateAngle(
-                landmarks[11], landmarks[13], landmarks[15]
-            )
-            angles["Right Elbow"] = self.calculateAngle(
-                landmarks[12], landmarks[14], landmarks[16]
-            )
-            angles["Left Knee"] = self.calculateAngle(
-                landmarks[23], landmarks[25], landmarks[27]
-            )
-            angles["Right Knee"] = self.calculateAngle(
-                landmarks[24], landmarks[26], landmarks[28]
-            )
-            angles["Left Shoulder"] = self.calculateAngle(
-                landmarks[13], landmarks[11], landmarks[23]
-            )
-            angles["Right Shoulder"] = self.calculateAngle(
-                landmarks[14], landmarks[12], landmarks[24]
-            )
+            angles["Left Elbow"] = self.calculateAngle(landmarks[11], landmarks[13], landmarks[15])
+            angles["Right Elbow"] = self.calculateAngle(landmarks[12], landmarks[14], landmarks[16])
+            angles["Left Knee"] = self.calculateAngle(landmarks[23], landmarks[25], landmarks[27])
+            angles["Right Knee"] = self.calculateAngle(landmarks[24], landmarks[26], landmarks[28])
+            angles["Left Shoulder"] = self.calculateAngle(landmarks[13], landmarks[11], landmarks[23])
+            angles["Right Shoulder"] = self.calculateAngle(landmarks[14], landmarks[12], landmarks[24])
         except KeyError:
             print("Error: Landmark indices out of range.")
             return None
+
         return angles
 
 
@@ -86,15 +77,13 @@ def pushToCSV(name, anglesDic):
         writer.writerow([name] + listOfAngles)
 
 
-pose_analyzer = poseAnalyzer()
-image_path = "posePictures/WarriorPose.png"
+# pose_analyzer = poseAnalyzer()
+# image_path = "static/posePictures/halfLordOfTheFishes.png"
 
 
-angles = pose_analyzer.analyzePose(image_path)
+# angles = pose_analyzer.analyzePose(image_path)
 
 
-if angles:
-    pushToCSV(image_path[13:], angles)
-    print("Angles:", angles)
-
-
+# if angles:
+#     pushToCSV(image_path[13:], angles)
+#     print("Angles:", angles)

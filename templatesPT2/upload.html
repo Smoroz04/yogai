@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Pose - YOGAI</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #e6dfd5;
+      color: #57604b;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header styles */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      font-weight: 500;
+      font-size: 1.25rem;
+    }
+
+    .menu-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #57604b;
+    }
+
+    /* Main content styles */
+    .main-content {
+      flex: 1;
+      padding: 2rem 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .upload-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* Illustration and form layout */
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .illustration-container {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .illustration {
+      width: 200%;
+      height: auto;
+    }
+
+    .upload-form {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .upload-heading {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #57604b;
+      line-height: 1.2;
+    }
+
+    /* Upload field styles */
+    .upload-field-container {
+      position: relative;
+    }
+
+    .upload-field {
+      position: relative;
+      background-color: #57604b;
+      border-radius: 9999px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .upload-field-text {
+      color: white;
+      font-size: 1.25rem;
+      transition: all 0.3s ease;
+    }
+
+    .upload-indicator {
+      width: 40px;
+      height: 40px;
+      background-color: #e6dfd5;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .file-input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    /* Submit button styles */
+    .submit-button-container {
+      position: relative;
+      width: 300%;
+      display: flex;
+      justify-content: left;
+      margin-top: 2rem;
+    }
+
+    .submit-button-gradient {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, #57604b 0%, rgba(87, 96, 75, 0) 70%);
+      border-radius: 9999px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.5s ease;
+    }
+
+    .submit-button {
+      position: relative;
+      z-index: 1;
+      background-color: #c3caba;
+      color: #57604b;
+      border: none;
+      border-radius: 9999px;
+      padding: 1rem 2rem;
+      font-size: 1.25rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .submit-button:hover {
+      background-color: #b0b9a6;
+    }
+
+    /* Upload animation styles */
+    .upload-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      width: 0%;
+      background-color: #a2ab9a;
+      transition: width 0.5s ease;
+    }
+
+    .file-name {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #57604b;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .file-selected .file-name {
+      opacity: 1;
+    }
+
+    /* Success animation */
+    @keyframes successPulse {
+      0% { transform: scale(1); background-color: #e6dfd5; }
+      50% { transform: scale(1.1); background-color: #a2ab9a; }
+      100% { transform: scale(1); background-color: #57604b; }
+    }
+
+    .upload-success .upload-indicator {
+      background-color: #57604b;
+      animation: successPulse 0.6s ease-in-out;
+    }
+
+    /* Illustration animation */
+    @keyframes poseFloat {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    .upload-success .illustration {
+      animation: poseFloat 2s ease-in-out;
+    }
+
+    /* Submit button gradient animation */
+    @keyframes gradientPulse {
+      0% { transform: scale(0.8); opacity: 0.4; }
+      50% { transform: scale(1.2); opacity: 0.6; }
+      100% { transform: scale(0.8); opacity: 0.4; }
+    }
+
+    .gradient-active {
+      animation: gradientPulse 3s ease-in-out infinite;
+      opacity: 0.5;
+    }
+
+    /* Responsive styles */
+    @media (min-width: 768px) {
+      .content-wrapper {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .illustration-container {
+        width: 45%;
+      }
+
+      .upload-form {
+        width: 50%;
+      }
+
+      .upload-heading {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="container">
+    <header>
+        <a href="/index" class="logo">YOGAI</a>
+      <button class="menu-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <div class="upload-container">
+        <div class="content-wrapper">
+          <div class="illustration-container">
+            <img src="static/posePictures/uploadMove.png" alt="Yoga pose illustration" class="illustration">
+          </div>
+          
+          <div class="upload-form">
+            <h1 class="upload-heading">UPLOAD NEW POSE TO LEARN</h1>
+            
+            <form method="POST" enctype="multipart/form-data" id="pose-upload-form">
+              <div class="upload-field-container" id="upload-field-container">
+                <div class="upload-field" id="upload-field">
+                  <span class="upload-field-text" id="upload-field-text">upload pose here</span>
+                  <div class="upload-indicator" id="upload-indicator"></div>
+                  <input type="file" name="file" class="file-input" id="file-input" accept="image/*">
+                  <div class="upload-progress" id="upload-progress"></div>
+                </div>
+                <div class="file-name" id="file-name"></div>
+              </div>
+              
+              <div class="submit-button-container">
+                <div class="submit-button-gradient" id="submit-button-gradient"></div>
+                <button type="submit" class="submit-button">submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const fileInput = document.getElementById('file-input');
+      const uploadField = document.getElementById('upload-field');
+      const uploadFieldContainer = document.getElementById('upload-field-container');
+      const uploadProgress = document.getElementById('upload-progress');
+      const fileName = document.getElementById('file-name');
+      const form = document.getElementById('pose-upload-form');
+      const illustration = document.querySelector('.illustration');
+      const uploadFieldText = document.getElementById('upload-field-text');
+      const submitButtonGradient = document.getElementById('submit-button-gradient');
+      
+      // Handle file selection
+      fileInput.addEventListener('change', function(e) {
+        if (fileInput.files.length > 0) {
+          const file = fileInput.files[0];
+          
+          // Show file name
+          fileName.textContent = file.name;
+          uploadFieldContainer.classList.add('file-selected');
+          
+          // Simulate upload progress
+          let progress = 0;
+          const interval = setInterval(() => {
+            progress += 5;
+            uploadProgress.style.width = `${progress}%`;
+            
+            if (progress >= 100) {
+              clearInterval(interval);
+              
+              // Show success animation
+              setTimeout(() => {
+                uploadField.classList.add('upload-success');
+                illustration.parentElement.classList.add('upload-success');
+                
+                // Change text to "Uploaded successfully"
+                uploadFieldText.textContent = "Uploaded successfully";
+                
+     
+                
+                // Reset progress bar after animation
+                setTimeout(() => {
+                  uploadProgress.style.width = '0%';
+                }, 1000);
+              }, 200);
+            }
+          }, 100);
+        }
+      });
+      
+      // Handle form submission
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        
+        console.log('Form submitted with file:', fileInput.files[0]?.name || 'No file selected');
+        
+        // For demo purposes, show an alert
+        if (fileInput.files.length > 0) {
+          alert('Pose uploaded successfully!');
+        } else {
+          alert('Please select a file to upload.');
+        }
+      });
+    });
+
+    // Function to add sidebar functionality to all pages
+    function addSidebarToPage() {
+      // Create style element for sidebar CSS
+      const style = document.createElement('style');
+      style.textContent = `
+      /* Sidebar styles */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        right: -320px; /* Start off-screen */
+        width: 320px;
+        height: 100vh;
+        background-color: #57604b;
+        color: #e6dfd5;
+        z-index: 1000;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+      }
+
+      .sidebar.open {
+        right: 0;
+      }
+
+      .sidebar-content {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .sidebar-logo {
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(230, 223, 213, 0.2);
+      }
+
+      .sidebar-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        color: #e6dfd5;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+
+      .sidebar-nav {
+        margin-top: 1rem;
+      }
+
+      .sidebar-nav ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .sidebar-nav li {
+        margin-bottom: 1rem;
+      }
+
+      .sidebar-nav a {
+        display: block;
+        padding: 0.75rem 0;
+        color: #e6dfd5;
+        text-decoration: none;
+        font-size: 1.25rem;
+        transition: all 0.2s ease;
+        border-radius: 4px;
+      }
+
+      .sidebar-nav a:hover {
+        background-color: rgba(230, 223, 213, 0.1);
+        padding-left: 0.5rem;
+      }
+
+      .sidebar-nav a.active {
+        font-weight: 600;
+        color: #c3caba;
+      }
+
+      /* Overlay styles */
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Additional styles for mobile */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 280px;
+        }
+      }
+      `;
+      
+      // Add the style to the head
+      document.head.appendChild(style);
+      
+      // Create the sidebar element
+      const sidebar = document.createElement('div');
+      sidebar.className = 'sidebar';
+      
+      const sidebarContent = document.createElement('div');
+      sidebarContent.className = 'sidebar-content';
+      
+      const closeButton = document.createElement('button');
+      closeButton.className = 'sidebar-close';
+      closeButton.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      `;
+      
+      const sidebarLogo = document.createElement('div');
+      sidebarLogo.className = 'sidebar-logo';
+      sidebarLogo.textContent = 'YOGAI';
+      
+      const navLinks = document.createElement('nav');
+      navLinks.className = 'sidebar-nav';
+      
+      // Define the navigation links
+      const links = [
+        { name: 'Home', url: '/index' },
+        { name: 'Pose Library', url: '/choose' },
+        { name: 'Behind the Tech', url: '/tech' },
+        { name: 'Upload Pose', url: '/upload' },
+    
+      ];
+      
+      // Create the navigation list
+      const navList = document.createElement('ul');
+      links.forEach(link => {
+        const listItem = document.createElement('li');
+        const anchor = document.createElement('a');
+        anchor.href = link.url;
+        anchor.textContent = link.name;
+        
+        // Highlight the current page
+        if (window.location.pathname.includes(link.url.substring(1))) {
+          anchor.className = 'active';
+        }
+        
+        listItem.appendChild(anchor);
+        navList.appendChild(listItem);
+      });
+      
+      navLinks.appendChild(navList);
+      
+      // Assemble the sidebar
+      sidebarContent.appendChild(closeButton);
+      sidebarContent.appendChild(sidebarLogo);
+      sidebarContent.appendChild(navLinks);
+      sidebar.appendChild(sidebarContent);
+      
+      // Add overlay for closing the sidebar when clicking outside
+      const overlay = document.createElement('div');
+      overlay.className = 'sidebar-overlay';
+      
+      // Add sidebar and overlay to the body
+      document.body.appendChild(sidebar);
+      document.body.appendChild(overlay);
+      
+      // Add event listeners
+      const menuButton = document.querySelector('.menu-button');
+      
+      if (menuButton) {
+        menuButton.addEventListener('click', function() {
+          sidebar.classList.add('open');
+          overlay.classList.add('active');
+          document.body.style.overflow = 'hidden'; // Prevent scrolling when sidebar is open
+        });
+      }
+      
+      closeButton.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; // Re-enable scrolling
+      });
+      
+      overlay.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; // Re-enable scrolling
+      });
+    }
+
+    // Add the sidebar when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', addSidebarToPage);
+
+
+
+
+
+  </script>
+</body>
+</html>
